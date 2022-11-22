@@ -67,6 +67,11 @@ class WeatherViewController: UIViewController {
             }
             self.weatherModel = WeatherModel(json: json)
             self.collectionView.model = self.weatherModel
+            // asynchrone : refresh all - reload data (à faire après le model car on sait qu'à ce moment là il existe)
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+    
             // retain cycle à voir = gestion de memoire
         })
     }
