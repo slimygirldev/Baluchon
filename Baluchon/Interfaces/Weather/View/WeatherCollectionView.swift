@@ -15,7 +15,7 @@ class WeatherCollectionView: UICollectionView, UICollectionViewDelegate, UIColle
 
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: .zero, collectionViewLayout: layout)
-        backgroundColor = .green
+        backgroundColor = .systemBackground
 
         delegate = self
         dataSource = self
@@ -47,7 +47,7 @@ class WeatherCollectionView: UICollectionView, UICollectionViewDelegate, UIColle
             }
         }
 
-        cell.backgroundColor = .white
+        cell.backgroundColor = .blue
         return cell
     }
 }
