@@ -16,23 +16,10 @@ class WeatherViewController: UIViewController {
 
     init(_ networkService: NetworkService) {
         self.networkService = networkService
-        // no Override Init and no convinence init to prevent the call of on of them in other place of the code
-        // creating my own super init and satisfy apple init needs
         super.init(nibName: nil, bundle: nil)
         tabBarItem.image = UIImage(systemName: "cloud.sun")
         tabBarItem.title = "Weather"
     }
-
-    //    convenience init(_ networkService: NetworkService) {
-    //        self.init(nibName: nil, bundle: nil)
-    //        self.networkService = networkService
-    //    }
-    //
-    //    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-    //        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    //            tabBarItem.image = UIImage(systemName: "cloud.sun")
-    //            tabBarItem.title = "Weather"
-    //    }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -40,10 +27,10 @@ class WeatherViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         title = "Weather"
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.backgroundColor = .cyan
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
 
         requestWeahter(city: "Paris")
         requestWeahter(city: "New York")
