@@ -9,28 +9,42 @@ import UIKit
 
 class WeatherCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifer = "WeatherCollectionViewCell"
-    let nameLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 36)
-        label.textColor = UIColor.black
-        label.text = "Default"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+
+    let cityNameLabel: UILabel = {
+        let cityNameLabel = UILabel()
+        cityNameLabel.font = .systemFont(ofSize: 36)
+        cityNameLabel.textColor = .black
+        cityNameLabel.text = "Default"
+        cityNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        return cityNameLabel
     }()
 
+    let weatherDescriptionLabel: UILabel = {
+        let weatherLabel = UILabel()
+        weatherLabel.font = .systemFont(ofSize: 22)
+        weatherLabel.textColor = .black
+        weatherLabel.text = "Cloudy"
+        weatherLabel.translatesAutoresizingMaskIntoConstraints = false
+        return weatherLabel
+    }()
 
-    let stackView: UIStackView = {
-        let sv = UIStackView()
-        sv.axis  = NSLayoutConstraint.Axis.horizontal
-        sv.alignment = UIStackView.Alignment.center
-        sv.distribution = UIStackView.Distribution.fillEqually
-        sv.translatesAutoresizingMaskIntoConstraints = false;
-        return sv
+    let mainStackView: UIStackView = {
+        let mainStackView = UIStackView()
+        mainStackView.axis  = .vertical
+        mainStackView.alignment = .center
+        mainStackView.distribution = .fill
+        mainStackView.spacing = 10
+        mainStackView.translatesAutoresizingMaskIntoConstraints = false
+        mainStackView.backgroundColor = .purple
+        return mainStackView
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        contentView.layer.cornerRadius = 10
+        contentView.layer.masksToBounds = true
+        layer.cornerRadius = 10
+        layer.masksToBounds = true
         addViews()
     }
 
@@ -39,13 +53,25 @@ class WeatherCollectionViewCell: UICollectionViewCell {
     }
 
     private func addViews() {
-        addSubview(nameLabel)
-        nameLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        nameLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+//        addSubview(cityNameLabel)
+//        cityNameLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+//        cityNameLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+//        addSubview(weatherDescriptionLabel)
+//        weatherDescriptionLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+//        weatherDescriptionLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        addSubview(mainStackView)
+        mainStackView.addArrangedSubview(cityNameLabel)
+        mainStackView.addArrangedSubview(weatherDescriptionLabel)
+
+        NSLayoutConstraint.activate([
+            mainStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            mainStackView.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ])
     }
 
     func configure(model: WeatherModel) {
-        nameLabel.text = model.cityName
+        cityNameLabel.text = model.cityName
+        weatherDescriptionLabel.text = model.mainWeatherDescription
         print("le model est config")
     }
 }
