@@ -9,7 +9,7 @@ import UIKit
 
 class WeatherViewController: UIViewController {
     var networkService: NetworkService
-    var weatherModel: WeatherModel?
+    var weatherModels: [WeatherModel?] = []
 
     let collectionView = WeatherCollectionView(frame: .zero,
                                                collectionViewLayout: UICollectionViewFlowLayout())
@@ -45,13 +45,15 @@ class WeatherViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.backgroundColor = .cyan
 
-        requestWeahter()
+        requestWeahter(city: "Paris")
+        requestWeahter(city: "New York")
+
         setupViews()
         setupConstraints()
     }
 
-    private func requestWeahter() {
-        networkService.requestWeather(for: "Paris", completionHandler: {
+    private func requestWeahter(city: String) {
+        networkService.requestWeather(for: city, completionHandler: {
             data in
             // -> 59 to move in NetworkService
             guard let data = data else {
@@ -65,8 +67,8 @@ class WeatherViewController: UIViewController {
                 print("no json")
                 return
             }
-            self.weatherModel = WeatherModel(json: json)
-            self.collectionView.model = self.weatherModel
+            self.weatherModels.append(WeatherModel(json: json))
+            self.collectionView.models = self.weatherModels
             // asynchrone : refresh all - reload data (à faire après le model car on sait qu'à ce moment là il existe)
             DispatchQueue.main.async {
                 self.collectionView.reloadData()

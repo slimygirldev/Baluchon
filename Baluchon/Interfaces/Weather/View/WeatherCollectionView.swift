@@ -9,7 +9,8 @@ import UIKit
 
 class WeatherCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource {
 
-    var model: WeatherModel?
+    var models: [WeatherModel?] = []
+    let horizontalPadding: Int = 16
 
 
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
@@ -28,18 +29,25 @@ class WeatherCollectionView: UICollectionView, UICollectionViewDelegate, UIColle
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return models.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WeatherCollectionViewCell.reuseIdentifer, for: indexPath) as? WeatherCollectionViewCell else {
             return UICollectionViewCell()
         }
-        if let model = model {
-            cell.configure(model: model)
-            print("la celle est configurée")
+        //permet de savoir quel model on doit utilisé pour configurer une cell telle qu'on la veut
+        // le if est une securité pr que le code ne crash pas au cas où indexpath serait vide
+        // on s'assure grace au if que la valeur d'indexpath est tjrs inferieur au nombre d'element dans le model
+        if indexPath.row < models.count {
+            var model = models[indexPath.row]
+            if let model = model {
+                cell.configure(model: model)
+                print("la celle est configurée")
+            }
         }
-        cell.backgroundColor = .purple
+
+        cell.backgroundColor = .white
         return cell
     }
 }
@@ -49,6 +57,6 @@ extension WeatherCollectionView: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         print("la cell est créée")
-        return CGSize(width: frame.width, height: frame.height / 2.5)
+        return CGSize(width: frame.width - CGFloat(horizontalPadding * 2), height: frame.height / 2.2)
     }
 }

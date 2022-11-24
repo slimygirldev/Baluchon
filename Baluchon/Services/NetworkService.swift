@@ -18,8 +18,9 @@ class NetworkService {
                         completionHandler: @escaping ((Data?) -> Void)) {
         let queryParameters: String = "?q=\(city)&appid=\(weatherAPIKey)"
         let queryURL: String = weatherURL + queryParameters
+        let urlString = queryURL.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
 
-        if let url = URL(string: queryURL) {
+        if let url = URL(string: urlString ?? queryURL) {
             let task = URLSession.shared.dataTask(with: url) {
                 (data, response, error) in
                 completionHandler(data)
