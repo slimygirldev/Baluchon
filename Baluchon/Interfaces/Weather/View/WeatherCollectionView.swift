@@ -9,7 +9,7 @@ import UIKit
 
 class WeatherCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource {
 
-    var models: [WeatherModel?] = []
+    var models: [WeatherModel] = []
     let horizontalPadding: Int = 16
 
 
@@ -41,10 +41,7 @@ class WeatherCollectionView: UICollectionView, UICollectionViewDelegate, UIColle
         // on s'assure grace au if que la valeur d'indexpath est tjrs inferieur au nombre d'element dans le model
         if indexPath.row < models.count {
             var model = models[indexPath.row]
-            if let model = model {
-                cell.configure(model: model)
-                print("la celle est configurée")
-            }
+            cell.configure(model: model)
         }
 
         cell.backgroundColor = .blue

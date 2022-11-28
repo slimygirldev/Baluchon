@@ -9,7 +9,7 @@ import UIKit
 
 class TabBarViewController: UITabBarController {
     // Service/Depencies
-    let networkService: NetworkService = NetworkService()
+    let networkService: NetworkWeatherService = NetworkWeatherService()
 
     override func viewDidLoad() {
         super.viewDidLoad()
