@@ -8,14 +8,16 @@
 import UIKit
 
 class WeatherViewController: UIViewController {
-    var networkService: NetworkService
-    var weatherModels: [WeatherModel?] = []
+    var networkService: NetworkWeatherService
+
+    var weatherModels: [WeatherModel] = []
 
     let collectionView = WeatherCollectionView(frame: .zero,
                                                collectionViewLayout: UICollectionViewFlowLayout())
 
-    init(_ networkService: NetworkService) {
+    init(_ networkService: NetworkWeatherService) {
         self.networkService = networkService
+
         super.init(nibName: nil, bundle: nil)
         tabBarItem.image = UIImage(systemName: "cloud.sun")
         tabBarItem.title = "Weather"
@@ -32,36 +34,20 @@ class WeatherViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
 
-        requestWeahter(city: "Paris")
-        requestWeahter(city: "New York")
+        requestWeather(cityId: .paris)
+        requestWeather(cityId: .newYork)
 
         setupViews()
         setupConstraints()
     }
 
-    private func requestWeahter(city: String) {
-        networkService.requestWeather(for: city, completionHandler: {
-            data in
-            // -> 59 to move in NetworkService
-            guard let data = data else {
-                print("no data founded")
-                return
-            }
-
-            let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-
-            guard let json = json else {
-                print("no json")
-                return
-            }
-            self.weatherModels.append(WeatherModel(json: json))
+    private func requestWeather(cityId: City) {
+        networkService.fetchWeather(for: cityId, { weather in
+            self.weatherModels.append(weather)
             self.collectionView.models = self.weatherModels
-            // asynchrone : refresh all - reload data (à faire après le model car on sait qu'à ce moment là il existe)
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }
-    
-            // retain cycle à voir = gestion de memoire
         })
     }
 

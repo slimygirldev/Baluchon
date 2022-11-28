@@ -28,12 +28,21 @@ class WeatherCollectionViewCell: UICollectionViewCell {
         return weatherLabel
     }()
 
+    let mainTempLabel: UILabel = {
+        let mainTempLabel = UILabel()
+        mainTempLabel.font = .systemFont(ofSize: 70)
+        mainTempLabel.textColor = .black
+        mainTempLabel.text = "Default"
+        mainTempLabel.translatesAutoresizingMaskIntoConstraints = false
+        return mainTempLabel
+    }()
+
     let mainStackView: UIStackView = {
         let mainStackView = UIStackView()
         mainStackView.axis  = .vertical
         mainStackView.alignment = .center
         mainStackView.distribution = .fill
-        mainStackView.spacing = 10
+        mainStackView.spacing = 5
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
         mainStackView.backgroundColor = .purple
         return mainStackView
@@ -53,14 +62,9 @@ class WeatherCollectionViewCell: UICollectionViewCell {
     }
 
     private func addViews() {
-//        addSubview(cityNameLabel)
-//        cityNameLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-//        cityNameLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-//        addSubview(weatherDescriptionLabel)
-//        weatherDescriptionLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-//        weatherDescriptionLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         addSubview(mainStackView)
         mainStackView.addArrangedSubview(cityNameLabel)
+        mainStackView.addArrangedSubview(mainTempLabel)
         mainStackView.addArrangedSubview(weatherDescriptionLabel)
 
         NSLayoutConstraint.activate([
@@ -70,7 +74,9 @@ class WeatherCollectionViewCell: UICollectionViewCell {
     }
 
     func configure(model: WeatherModel) {
+        let celsius = Int(model.temp - 273.15)
         cityNameLabel.text = model.cityName
+        mainTempLabel.text = "\(celsius)°"
         weatherDescriptionLabel.text = model.mainWeatherDescription
         print("le model est config")
     }
