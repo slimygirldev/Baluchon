@@ -40,7 +40,7 @@ class WeatherCollectionView: UICollectionView, UICollectionViewDelegate, UIColle
         // le if est une securité pr que le code ne crash pas au cas où indexpath serait vide
         // on s'assure grace au if que la valeur d'indexpath est tjrs inferieur au nombre d'element dans le model
         if indexPath.row < models.count {
-            var model = models[indexPath.row]
+            let model = models[indexPath.row]
             cell.configure(model: model)
         }
 

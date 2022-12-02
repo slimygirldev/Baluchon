@@ -8,6 +8,10 @@
 import UIKit
 
 class WeatherViewController: UIViewController {
+//    let hour = Calendar.current.component(.hour, from: Date())
+
+    private let alertService: AlertProvider = AlertProvider()
+
     var networkService: NetworkWeatherService
 
     var weatherModels: [WeatherModel] = []
@@ -34,17 +38,46 @@ class WeatherViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
 
+//        let actualdate = getHour()
+
         requestWeather(cityId: .paris)
         requestWeather(cityId: .newYork)
 
         setupViews()
         setupConstraints()
     }
+//
+//    private func getHour() -> String {
+//        let date = Date() // save date, so all components use the same date
+//        let calendar = Calendar.current // or e.g. Calendar(identifier: .persian)
+//
+//        let hour = calendar.component(.hour, from: date)
+//        let minute = calendar.component(.minute, from: date)
+//        let second = calendar.component(.second, from: date)
+//        print("\(hour)h\(minute)")
+//        return "\(hour)\(minute)"
+//    }
 
     private func requestWeather(cityId: City) {
-        networkService.fetchWeather(for: cityId, { weather in
-            self.weatherModels.append(weather)
+        // faire try pour renvoyer l'alerte
+        networkService.fetchWeather(for: cityId, { weather, error  in
+
+            guard error == nil else {
+                // Network service envoit une erreur - ds ce scope je sais que error existe != nil
+                DispatchQueue.main.async {
+                    self.present(self.alertService.alertError(alertType: .fetchError), animated: true, completion: nil)
+                }
+
+                return
+            }
+
+            guard let unwrappedWeather = weather else {
+                // weather est nil faire une erreur
+                return
+            }
+            self.weatherModels.append(unwrappedWeather)
             self.collectionView.models = self.weatherModels
+
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }

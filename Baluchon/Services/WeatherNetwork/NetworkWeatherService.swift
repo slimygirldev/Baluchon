@@ -9,36 +9,36 @@
 import Foundation
 
 class NetworkWeatherService {
-    private let apiKey: String = ""
-    private let weatherURL: String = "https://api.openweathermap.org/data/2.5/weather"
 
-    func fetchWeather(for cityId: City, _ completion: @escaping ((WeatherModel) -> Void)) {
+    private let apiKey: String = "89cd991d90f7deccaa3a48bb75ca2045"
+    private let weatherURL: String = "https://api.openweathermap.org/data/2.5/weather"
+    private let networkService: NetworkService = NetworkService()
+
+    func fetchWeather(for cityId: City, _ completion: @escaping ((WeatherModel?, Error?) -> Void)) {
 
         let queryParameters: String = "?id=\(cityId.rawValue)&appid=\(apiKey)"
         let queryURL: String = weatherURL + queryParameters
 
-        if let url = URL(string: queryURL) {
-            URLSession.shared.dataTask(with: url) { (data, response, error) in
-                if let error = error {
-                    print("Error occured", error)
-                }
-                if let data = data {
-                    do {
-                        let weather = try JSONDecoder().decode(WeatherEntity.self, from: data)
+        networkService.request(for: queryURL, entityType: WeatherEntity.self) {
+            data, error  in
+            guard error == nil else {
+                print("Error : \(error.debugDescription)")
+                completion(nil, error)
+                return
+            }
+            guard let jsonWeather = data else {
+                return
+            }
 
-                        let weatherModel = WeatherModel(cityName: weather.name,
-                                                        temp: weather.main.temp,
-                                                        tempMin: weather.main.tempMin,
-                                                        tempMax: weather.main.tempMax,
-                                                        humidity: weather.main.humidity,
-                                                        mainWeatherDescription: weather.weather[0].description)
-                        completion(weatherModel)
-                    } catch let error {
-                        print("Look HERE====>", error)
-                    }
-                }
-            }.resume()
+            let weatherModel = WeatherModel(cityName: jsonWeather.name,
+                                            temp: jsonWeather.main.temp,
+                                            tempMin: jsonWeather.main.tempMin,
+                                            tempMax: jsonWeather.main.tempMax,
+                                            humidity: jsonWeather.main.humidity,
+                                            mainWeatherDescription: jsonWeather.weather[0].description)
+            completion(weatherModel, nil)
         }
     }
-
 }
+
+
