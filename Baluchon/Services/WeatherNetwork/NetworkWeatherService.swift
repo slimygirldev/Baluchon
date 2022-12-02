@@ -10,7 +10,7 @@ import Foundation
 
 class NetworkWeatherService {
 
-    private let apiKey: String = "89cd991d90f7deccaa3a48bb75ca2045"
+    private let apiKey: String = ""
     private let weatherURL: String = "https://api.openweathermap.org/data/2.5/weather"
     private let networkService: NetworkService = NetworkService()
 
