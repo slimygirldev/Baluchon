@@ -21,10 +21,10 @@ struct WeatherModel {
 
     var mainWeatherDescription: String
 
-    var icon: String
-
-    var weatherIcon: URL {
-        let urlString = "http://openweathermap.org/img/wn/\(icon)@2x.png"
-        return URL(string: urlString)!
-    }
+//    var icon: String
+//
+//    var weatherIcon: URL {
+//        let urlString = "http://openweathermap.org/img/wn/\(icon)@2x.png"
+//        return URL(string: urlString)!
+//    }
 }
