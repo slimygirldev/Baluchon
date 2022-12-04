@@ -10,6 +10,7 @@ import UIKit
 class TabBarViewController: UITabBarController {
     // Service/Depencies
     let networkService: NetworkWeatherService = NetworkWeatherService()
+    let conversionNetworkService: ConversionNetworkService = ConversionNetworkService()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,9 +22,9 @@ class TabBarViewController: UITabBarController {
 
     func setupVCs() {
         viewControllers = [
+            UINavigationController(rootViewController: ConversionViewController(conversionNetworkService)),
             UINavigationController(rootViewController: WeatherViewController(networkService)),
-//            WeatherViewController(networkService),
-            UINavigationController(rootViewController: ConversionViewController()),
+
             UINavigationController(rootViewController: TranslationViewController()),
         ]
         viewControllers?.forEach {

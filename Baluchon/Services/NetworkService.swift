@@ -32,4 +32,24 @@ class NetworkService {
             }.resume()
         }
     }
+
+    func request<JSONType>(for queryURL: URLRequest,
+                           //ici on précise qu'on veut le Type de JSONType et non une entité de ce 'type'
+                           entityType: JSONType.Type,
+                           _ completionHandler: @escaping ((JSONType?, Error?) -> Void)) where JSONType: Decodable {
+
+        URLSession.shared.dataTask(with: queryURL) { (data, response, error) in
+            guard error == nil else {
+                print("Error occured, \(error.debugDescription)")
+                completionHandler(nil, error)
+                return
+            }
+
+            if let data = data {
+                let json = try? JSONDecoder().decode(entityType, from: data)
+                completionHandler(json, nil)
+            }
+        }.resume()
+
+    }
 }

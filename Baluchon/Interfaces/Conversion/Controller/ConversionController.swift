@@ -8,11 +8,23 @@
 import UIKit
 
 class ConversionViewController: UIViewController {
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+
+    private let alertService: AlertProvider = AlertProvider()
+
+    var networkService: ConversionNetworkService
+
+    var tableView = ConversionTableView(frame: .zero, style: .grouped)
+
+    //var conversionModel: ConversionModel?
+
+    init(_ networkService: ConversionNetworkService) {
+        self.networkService = networkService
+
+        super.init(nibName: nil, bundle: nil)
         tabBarItem.image = UIImage(systemName: "dollarsign.circle")
         tabBarItem.title = "Conversion"
     }
+
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -24,5 +36,32 @@ class ConversionViewController: UIViewController {
         title = "Conversion"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+
+        setupViews()
+        setupConstraints()
+
+        let completionHandler: ((ConversionModel?, Error?) -> Void) = { conversionData, error in
+print(conversionData)
+        }
+
+        networkService.fetchCurrency(from: "EUR",
+                                     amount: 1,
+                                     to: "USD",
+                                     completion: completionHandler)
+    }
+
+    private func setupViews() {
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tableView)
+        tableView.backgroundColor = .cyan
+    }
+
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            tableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
 }

@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+struct ConversionModel {
+    var from: String
+    var to: String
+    var amount: Float
+    var result: Float
+}
