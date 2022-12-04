@@ -8,7 +8,6 @@
 import UIKit
 
 class WeatherViewController: UIViewController {
-//    let hour = Calendar.current.component(.hour, from: Date())
 
     private let alertService: AlertProvider = AlertProvider()
 
@@ -46,20 +45,8 @@ class WeatherViewController: UIViewController {
         setupViews()
         setupConstraints()
     }
-//
-//    private func getHour() -> String {
-//        let date = Date() // save date, so all components use the same date
-//        let calendar = Calendar.current // or e.g. Calendar(identifier: .persian)
-//
-//        let hour = calendar.component(.hour, from: date)
-//        let minute = calendar.component(.minute, from: date)
-//        let second = calendar.component(.second, from: date)
-//        print("\(hour)h\(minute)")
-//        return "\(hour)\(minute)"
-//    }
 
     private func requestWeather(cityId: City) {
-        // faire try pour renvoyer l'alerte
         networkService.fetchWeather(for: cityId, { weather, error  in
 
             guard error == nil else {

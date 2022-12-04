@@ -53,7 +53,6 @@ extension WeatherCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        print("la cell est créée")
         return CGSize(width: frame.width - CGFloat(horizontalPadding * 2), height: frame.height / 2.2)
     }
 }

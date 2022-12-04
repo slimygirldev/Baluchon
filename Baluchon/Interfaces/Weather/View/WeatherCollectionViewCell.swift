@@ -13,8 +13,10 @@ class WeatherCollectionViewCell: UICollectionViewCell {
     let cityNameLabel: UILabel = {
         let cityNameLabel = UILabel()
         cityNameLabel.font = .systemFont(ofSize: 36)
-        cityNameLabel.textColor = .black
+        cityNameLabel.textColor = .white
         cityNameLabel.text = "Default"
+        cityNameLabel.layer.shadowOpacity = 0.25
+        cityNameLabel.layer.shadowRadius = 4
         cityNameLabel.translatesAutoresizingMaskIntoConstraints = false
         return cityNameLabel
     }()
@@ -22,8 +24,10 @@ class WeatherCollectionViewCell: UICollectionViewCell {
     let weatherDescriptionLabel: UILabel = {
         let weatherLabel = UILabel()
         weatherLabel.font = .systemFont(ofSize: 22)
-        weatherLabel.textColor = .black
+        weatherLabel.textColor = .white
         weatherLabel.text = "Cloudy"
+        weatherLabel.layer.shadowOpacity = 0.25
+        weatherLabel.layer.shadowRadius = 4
         weatherLabel.translatesAutoresizingMaskIntoConstraints = false
         return weatherLabel
     }()
@@ -31,28 +35,34 @@ class WeatherCollectionViewCell: UICollectionViewCell {
     let mainTempLabel: UILabel = {
         let mainTempLabel = UILabel()
         mainTempLabel.font = .systemFont(ofSize: 70)
-        mainTempLabel.textColor = .black
+        mainTempLabel.textColor = .white
         mainTempLabel.text = "Default"
+        mainTempLabel.layer.shadowOpacity = 0.25
+        mainTempLabel.layer.shadowRadius = 4
         mainTempLabel.translatesAutoresizingMaskIntoConstraints = false
         return mainTempLabel
     }()
 
     let minTempLabel: UILabel = {
-        let mainTempLabel = UILabel()
-        mainTempLabel.font = .systemFont(ofSize: 20)
-        mainTempLabel.textColor = .black
-        mainTempLabel.text = "Default"
-        mainTempLabel.translatesAutoresizingMaskIntoConstraints = false
-        return mainTempLabel
+        let minTempLabel = UILabel()
+        minTempLabel.font = .systemFont(ofSize: 20)
+        minTempLabel.textColor = .white
+        minTempLabel.text = "Default"
+        minTempLabel.layer.shadowOpacity = 0.25
+        minTempLabel.layer.shadowRadius = 4
+        minTempLabel.translatesAutoresizingMaskIntoConstraints = false
+        return minTempLabel
     }()
 
     let maxTempLabel: UILabel = {
-        let mainTempLabel = UILabel()
-        mainTempLabel.font = .systemFont(ofSize: 20)
-        mainTempLabel.textColor = .black
-        mainTempLabel.text = "Default"
-        mainTempLabel.translatesAutoresizingMaskIntoConstraints = false
-        return mainTempLabel
+        let maxTempLabel = UILabel()
+        maxTempLabel.font = .systemFont(ofSize: 20)
+        maxTempLabel.textColor = .white
+        maxTempLabel.text = "Default"
+        maxTempLabel.layer.shadowOpacity = 0.25
+        maxTempLabel.layer.shadowRadius = 4
+        maxTempLabel.translatesAutoresizingMaskIntoConstraints = false
+        return maxTempLabel
     }()
 
     let mainStackView: UIStackView = {
@@ -62,7 +72,7 @@ class WeatherCollectionViewCell: UICollectionViewCell {
         mainStackView.distribution = .fill
         mainStackView.spacing = 5
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
-        mainStackView.backgroundColor = .purple
+        mainStackView.backgroundColor = .clear
         return mainStackView
     }()
 
@@ -73,7 +83,7 @@ class WeatherCollectionViewCell: UICollectionViewCell {
         horizontalStackView.axis = .horizontal
         horizontalStackView.spacing = 10
         horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
-        horizontalStackView.backgroundColor = .yellow
+        horizontalStackView.backgroundColor = .clear
         return horizontalStackView
     }()
 
@@ -122,9 +132,14 @@ class WeatherCollectionViewCell: UICollectionViewCell {
         let celsiusForMaxTemp = kelvinToCelsius(kelvin: model.tempMax)
         cityNameLabel.text = model.cityName
         mainTempLabel.text = "\(celsiusForMainTemp)°"
-        minTempLabel.text = "L:\(celsiusForMinTemp)°"
-        maxTempLabel.text = "H:\(celsiusForMaxTemp)°"
+        minTempLabel.text = "L: \(celsiusForMinTemp)°"
+        maxTempLabel.text = "H: \(celsiusForMaxTemp)°"
         weatherDescriptionLabel.text = model.mainWeatherDescription
-        print("le model est config")
+
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = bounds
+        
+        gradientLayer.colors = model.setBackgroundColor()
+        contentView.layer.insertSublayer(gradientLayer, at: 0)
     }
 }
