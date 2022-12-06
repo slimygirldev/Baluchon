@@ -11,6 +11,7 @@ import UIKit
 enum City: Int {
     case paris = 6455259
     case newYork = 5128581
+    case copenhagen = 2618425
 }
 
 

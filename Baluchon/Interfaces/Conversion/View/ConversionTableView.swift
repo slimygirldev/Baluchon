@@ -19,14 +19,33 @@ class ConversionTableView: UITableView, UITableViewDelegate, UITableViewDataSour
 
         self.register(ConversionTableViewCell.self,
                       forCellReuseIdentifier: ConversionTableViewCell.reuseIdentifier)
+
+        self.separatorInset = UIEdgeInsets(top: 0, left: 11, bottom: 0, right: 11)
     }
+
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+
+        if section == 0 {
+            return 3
+        } else {
+            return 1
+        }
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 1 && indexPath.row == 0 {
+            return 70.0
+        }
+        return 44.0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -34,8 +53,20 @@ class ConversionTableView: UITableView, UITableViewDelegate, UITableViewDataSour
                                                        for: indexPath) as? ConversionTableViewCell else {
             return UITableViewCell()
         }
-        cell.backgroundColor = .purple
+        cell.backgroundColor = .white
+
+        if indexPath.section == 1 && indexPath.row == 0 {
+            cell.backgroundColor = .gray
+        }
+        
         return cell
     }
 
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Convert a currency"
+        } else {
+            return "Conversion"
+        }
+    }
 }

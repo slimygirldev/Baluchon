@@ -13,7 +13,7 @@ class ConversionViewController: UIViewController {
 
     var networkService: ConversionNetworkService
 
-    var tableView = ConversionTableView(frame: .zero, style: .grouped)
+    var tableView = ConversionTableView(frame: .zero, style: .insetGrouped)
 
     //var conversionModel: ConversionModel?
 
@@ -41,7 +41,6 @@ class ConversionViewController: UIViewController {
         setupConstraints()
 
         let completionHandler: ((ConversionModel?, Error?) -> Void) = { conversionData, error in
-print(conversionData)
         }
 
         networkService.fetchCurrency(from: "EUR",
@@ -53,7 +52,6 @@ print(conversionData)
     private func setupViews() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
-        tableView.backgroundColor = .cyan
     }
 
     private func setupConstraints() {
