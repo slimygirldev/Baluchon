@@ -41,6 +41,7 @@ class WeatherViewController: UIViewController {
 
         requestWeather(cityId: .paris)
         requestWeather(cityId: .newYork)
+        requestWeather(cityId: .copenhagen)
 
         setupViews()
         setupConstraints()

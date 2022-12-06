@@ -15,6 +15,7 @@ class TabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        self.tabBar.backgroundColor = .systemBackground
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue], for: .selected)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.gray], for: .normal)
         setupVCs()
@@ -22,9 +23,8 @@ class TabBarViewController: UITabBarController {
 
     func setupVCs() {
         viewControllers = [
-            UINavigationController(rootViewController: ConversionViewController(conversionNetworkService)),
             UINavigationController(rootViewController: WeatherViewController(networkService)),
-
+            UINavigationController(rootViewController: ConversionViewController(conversionNetworkService)),
             UINavigationController(rootViewController: TranslationViewController()),
         ]
         viewControllers?.forEach {
