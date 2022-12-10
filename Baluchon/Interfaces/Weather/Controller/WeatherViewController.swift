@@ -37,11 +37,8 @@ class WeatherViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
 
-//        let actualdate = getHour()
-
         requestWeather(cityId: .paris)
         requestWeather(cityId: .newYork)
-        requestWeather(cityId: .copenhagen)
 
         setupViews()
         setupConstraints()

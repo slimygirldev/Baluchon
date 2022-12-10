@@ -25,7 +25,6 @@ class ConversionViewController: UIViewController {
         tabBarItem.title = "Conversion"
     }
 
-
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -37,15 +36,23 @@ class ConversionViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
 
+        tableView.conversionDelegate = self
         setupViews()
         setupConstraints()
+    }
 
-        let completionHandler: ((ConversionModel?, Error?) -> Void) = { conversionData, error in
+    private func requestConversion(model: FormModel) {
+        let completionHandler: ((ConversionModel?, Error?) -> Void) = { model, error in
+            self.tableView.result = model?.result ?? 0.0
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
 
-        networkService.fetchCurrency(from: "EUR",
-                                     amount: 1,
-                                     to: "USD",
+        networkService.fetchCurrency(from: model.from,
+                                     amount: model.amount,
+                                     to: model.to,
                                      completion: completionHandler)
     }
 
@@ -61,5 +68,11 @@ class ConversionViewController: UIViewController {
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+}
+
+extension ConversionViewController: ConversionTableViewDelegate {
+    func conversionTableViewDelegateTappedConvertButton(model: FormModel) {
+        requestConversion(model: model)
     }
 }

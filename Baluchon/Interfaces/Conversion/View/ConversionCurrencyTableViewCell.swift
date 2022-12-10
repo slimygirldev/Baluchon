@@ -11,32 +11,28 @@ class ConversionCurrencyTableViewCell: UITableViewCell {
     static let reuseIdentifier = "ConversionCurrencyTableViewCell"
 
     let textCurrency: UILabel = {
-        let textField = UILabel()
-        textField.text = "EUR"
-        textField.font = .systemFont(ofSize: 20)
-        textField.backgroundColor = .red
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
+        let textCurrency = UILabel()
+        textCurrency.text = Currencies.EUR.rawValue
+        textCurrency.font = .systemFont(ofSize: 20)
+        textCurrency.translatesAutoresizingMaskIntoConstraints = false
+        return textCurrency
     }()
 
     let titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.font = .systemFont(ofSize: 20)
         titleLabel.textColor = .lightGray
-        titleLabel.text = "Default"
+        titleLabel.text = "Default :"
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.backgroundColor = .green
         return titleLabel
     }()
 
     let mainStackView: UIStackView = {
         let mainStackView = UIStackView()
         mainStackView.axis = .horizontal
-        mainStackView.alignment = .leading
-        mainStackView.distribution = .fillProportionally
+        mainStackView.distribution = .fill
         mainStackView.spacing = 5
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
-        mainStackView.backgroundColor = .magenta
         return mainStackView
     }()
 
@@ -56,6 +52,11 @@ class ConversionCurrencyTableViewCell: UITableViewCell {
                                                                      bottom: 10, right: 10))
     }
 
+    func configure(title: String, currency: Currencies) {
+        titleLabel.text = title
+        textCurrency.text = currency.rawValue
+    }
+
     private func addViews() {
         addSubview(mainStackView)
 
@@ -63,10 +64,12 @@ class ConversionCurrencyTableViewCell: UITableViewCell {
         mainStackView.addArrangedSubview(textCurrency)
 
         NSLayoutConstraint.activate([
-            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant : 20),
             mainStackView.topAnchor.constraint(equalTo: topAnchor),
             mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+
+            titleLabel.widthAnchor.constraint(equalToConstant: 80)
         ])
     }
 }

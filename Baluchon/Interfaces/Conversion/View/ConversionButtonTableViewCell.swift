@@ -1,5 +1,5 @@
 //
-//  ConversionResultTableViewCell.swift
+//  ConversionButtonTableViewCell.swift
 //  Baluchon
 //
 //  Created by Lorene Brocourt on 10/12/2022.
@@ -7,21 +7,22 @@
 
 import UIKit
 
-class ConversionResultTableViewCell: UITableViewCell {
-    static let reuseIdentifier = "ConversionResultTableViewCell"
+class ConversionButtonTableViewCell: UITableViewCell {
+    static let reuseIdentifier = "ConversionButtonTableViewCell"
 
-    let textResult: UILabel = {
-        let textResult = UILabel()
-        textResult.text = "-1"
-        textResult.font = .systemFont(ofSize: 40)
-        textResult.translatesAutoresizingMaskIntoConstraints = false
-        return textResult
+    let textConvert: UILabel = {
+        let textField = UILabel()
+        textField.text = "Convert"
+        textField.font = .systemFont(ofSize: 22)
+        textField.textColor = .white
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
     }()
 
     let mainStackView: UIStackView = {
         let mainStackView = UIStackView()
         mainStackView.axis = .horizontal
-        mainStackView.distribution = .fillProportionally
+        mainStackView.distribution = .fill
         mainStackView.spacing = 5
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
         return mainStackView
@@ -29,6 +30,7 @@ class ConversionResultTableViewCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.backgroundColor = .systemBlue
         addViews()
     }
 
@@ -46,15 +48,12 @@ class ConversionResultTableViewCell: UITableViewCell {
     private func addViews() {
         addSubview(mainStackView)
 
-        mainStackView.addArrangedSubview(textResult)
+        mainStackView.addArrangedSubview(textConvert)
 
         NSLayoutConstraint.activate([
             mainStackView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             mainStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
     }
-
-    func configure(result: String) {
-        textResult.text = result
-    }
 }
+
