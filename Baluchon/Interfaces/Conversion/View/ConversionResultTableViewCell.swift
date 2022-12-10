@@ -1,32 +1,22 @@
 //
-//  ConversionTableViewCell.swift
+//  ConversionResultTableViewCell.swift
 //  Baluchon
 //
-//  Created by Lorene Brocourt on 04/12/2022.
+//  Created by Lorene Brocourt on 10/12/2022.
 //
 
 import UIKit
 
-class ConversionTableViewCell: UITableViewCell {
-    static let reuseIdentifier = "ConversionTableViewCell"
+class ConversionResultTableViewCell: UITableViewCell {
+    static let reuseIdentifier = "ConversionResultTableViewCell"
 
-    let textField: UITextField = {
-        let textField = UITextField()
+    let textResult: UILabel = {
+        let textField = UILabel()
         textField.text = "0.0"
-        textField.font = .systemFont(ofSize: 20)
-        textField.backgroundColor = .cyan
+        textField.font = .systemFont(ofSize: 40)
+        textField.backgroundColor = .red
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
-    }()
-
-    let titleLabel: UILabel = {
-        let titleLabel = UILabel()
-        titleLabel.font = .systemFont(ofSize: 20)
-        titleLabel.textColor = .lightGray
-        titleLabel.text = "Default"
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.backgroundColor = .blue
-        return titleLabel
     }()
 
     let mainStackView: UIStackView = {
@@ -44,11 +34,11 @@ class ConversionTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addViews()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
 
@@ -59,8 +49,7 @@ class ConversionTableViewCell: UITableViewCell {
     private func addViews() {
         addSubview(mainStackView)
 
-        mainStackView.addArrangedSubview(titleLabel)
-        mainStackView.addArrangedSubview(textField)
+        mainStackView.addArrangedSubview(textResult)
 
         NSLayoutConstraint.activate([
             mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor),

@@ -19,6 +19,10 @@ class ConversionTableView: UITableView, UITableViewDelegate, UITableViewDataSour
 
         self.register(ConversionTableViewCell.self,
                       forCellReuseIdentifier: ConversionTableViewCell.reuseIdentifier)
+        self.register(ConversionCurrencyTableViewCell.self,
+                      forCellReuseIdentifier: ConversionCurrencyTableViewCell.reuseIdentifier)
+        self.register(ConversionResultTableViewCell.self,
+                      forCellReuseIdentifier: ConversionResultTableViewCell.reuseIdentifier)
 
         self.separatorInset = UIEdgeInsets(top: 0, left: 11, bottom: 0, right: 11)
     }
@@ -49,24 +53,32 @@ class ConversionTableView: UITableView, UITableViewDelegate, UITableViewDataSour
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ConversionTableViewCell.reuseIdentifier,
-                                                       for: indexPath) as? ConversionTableViewCell else {
-            return UITableViewCell()
+        if indexPath.section == 0 && indexPath.row == 0 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ConversionTableViewCell.reuseIdentifier,
+                                                           for: indexPath) as? ConversionTableViewCell else { return UITableViewCell() }
+            return cell
+        } else if indexPath.section == 0 && indexPath.row == 1 || indexPath.row == 2 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ConversionCurrencyTableViewCell.reuseIdentifier,
+                                                           for: indexPath) as? ConversionCurrencyTableViewCell else { return UITableViewCell() }
+            return cell
+        } else if indexPath.section == 1 && indexPath.row == 0 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ConversionResultTableViewCell.reuseIdentifier,
+                                                           for: indexPath) as? ConversionResultTableViewCell else { return UITableViewCell() }
+            return cell
+        } else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ConversionTableViewCell.reuseIdentifier,
+                                                           for: indexPath) as? ConversionTableViewCell else {
+                return UITableViewCell()
+            }
+            return cell
         }
-        cell.backgroundColor = .white
-
-        if indexPath.section == 1 && indexPath.row == 0 {
-            cell.backgroundColor = .gray
-        }
-        
-        return cell
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
             return "Convert a currency"
         } else {
-            return "Conversion"
+            return "Result of conversion"
         }
     }
 }
