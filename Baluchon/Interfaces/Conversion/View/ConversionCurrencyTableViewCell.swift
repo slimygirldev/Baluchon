@@ -1,20 +1,20 @@
 //
-//  ConversionTableViewCell.swift
+//  ConversionCurrencyTableViewCell.swift
 //  Baluchon
 //
-//  Created by Lorene Brocourt on 04/12/2022.
+//  Created by Lorene Brocourt on 10/12/2022.
 //
 
 import UIKit
 
-class ConversionTableViewCell: UITableViewCell {
-    static let reuseIdentifier = "ConversionTableViewCell"
+class ConversionCurrencyTableViewCell: UITableViewCell {
+    static let reuseIdentifier = "ConversionCurrencyTableViewCell"
 
-    let textField: UITextField = {
-        let textField = UITextField()
-        textField.text = "0.0"
+    let textCurrency: UILabel = {
+        let textField = UILabel()
+        textField.text = "EUR"
         textField.font = .systemFont(ofSize: 20)
-        textField.backgroundColor = .cyan
+        textField.backgroundColor = .red
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -25,7 +25,7 @@ class ConversionTableViewCell: UITableViewCell {
         titleLabel.textColor = .lightGray
         titleLabel.text = "Default"
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.backgroundColor = .blue
+        titleLabel.backgroundColor = .green
         return titleLabel
     }()
 
@@ -44,11 +44,11 @@ class ConversionTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addViews()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
 
@@ -60,7 +60,7 @@ class ConversionTableViewCell: UITableViewCell {
         addSubview(mainStackView)
 
         mainStackView.addArrangedSubview(titleLabel)
-        mainStackView.addArrangedSubview(textField)
+        mainStackView.addArrangedSubview(textCurrency)
 
         NSLayoutConstraint.activate([
             mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor),

@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		985AC21A2922DDB400480833 /* ConversionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985AC2192922DDB400480833 /* ConversionModel.swift */; };
-		985AC21C2922DDC800480833 /* ConversionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985AC21B2922DDC800480833 /* ConversionView.swift */; };
 		985AC21E2922DDDB00480833 /* ConversionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985AC21D2922DDDB00480833 /* ConversionController.swift */; };
 		985AC2242922DF3D00480833 /* TranslationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985AC2232922DF3D00480833 /* TranslationModel.swift */; };
 		985AC2262922DF6300480833 /* TranslationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985AC2252922DF6300480833 /* TranslationView.swift */; };
@@ -30,11 +29,12 @@
 		98DA370F293D455900411E78 /* ConversionEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DA370E293D455900411E78 /* ConversionEntity.swift */; };
 		98DA3711293D534C00411E78 /* ConversionTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DA3710293D534C00411E78 /* ConversionTableView.swift */; };
 		98DA3713293D54DA00411E78 /* ConversionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DA3712293D54DA00411E78 /* ConversionTableViewCell.swift */; };
+		98DA3715294492E300411E78 /* ConversionCurrencyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DA3714294492E300411E78 /* ConversionCurrencyTableViewCell.swift */; };
+		98DA371729449D7400411E78 /* ConversionResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DA371629449D7400411E78 /* ConversionResultTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		985AC2192922DDB400480833 /* ConversionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionModel.swift; sourceTree = "<group>"; };
-		985AC21B2922DDC800480833 /* ConversionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionView.swift; sourceTree = "<group>"; };
 		985AC21D2922DDDB00480833 /* ConversionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionController.swift; sourceTree = "<group>"; };
 		985AC2232922DF3D00480833 /* TranslationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationModel.swift; sourceTree = "<group>"; };
 		985AC2252922DF6300480833 /* TranslationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationView.swift; sourceTree = "<group>"; };
@@ -58,6 +58,8 @@
 		98DA370E293D455900411E78 /* ConversionEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionEntity.swift; sourceTree = "<group>"; };
 		98DA3710293D534C00411E78 /* ConversionTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionTableView.swift; sourceTree = "<group>"; };
 		98DA3712293D54DA00411E78 /* ConversionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionTableViewCell.swift; sourceTree = "<group>"; };
+		98DA3714294492E300411E78 /* ConversionCurrencyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionCurrencyTableViewCell.swift; sourceTree = "<group>"; };
+		98DA371629449D7400411E78 /* ConversionResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionResultTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,9 +94,10 @@
 		985AC2162922DD6600480833 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				985AC21B2922DDC800480833 /* ConversionView.swift */,
 				98DA3710293D534C00411E78 /* ConversionTableView.swift */,
 				98DA3712293D54DA00411E78 /* ConversionTableViewCell.swift */,
+				98DA3714294492E300411E78 /* ConversionCurrencyTableViewCell.swift */,
+				98DA371629449D7400411E78 /* ConversionResultTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -342,18 +345,19 @@
 			files = (
 				988FED1929352386007228F3 /* NetworkWeatherService.swift in Sources */,
 				98DA3711293D534C00411E78 /* ConversionTableView.swift in Sources */,
-				985AC21C2922DDC800480833 /* ConversionView.swift in Sources */,
 				98C413332922CA2F0030AA68 /* AppDelegate.swift in Sources */,
 				98C4134D2922D5FB0030AA68 /* WeatherViewController.swift in Sources */,
 				98C4134A2922CE650030AA68 /* TabBarViewController.swift in Sources */,
 				98DA3713293D54DA00411E78 /* ConversionTableViewCell.swift in Sources */,
 				988FED20293A605E007228F3 /* AlertProvider.swift in Sources */,
 				988FED1729352210007228F3 /* WeatherEntity.swift in Sources */,
+				98DA371729449D7400411E78 /* ConversionResultTableViewCell.swift in Sources */,
 				98C413542922D8D40030AA68 /* WeatherCollectionViewCell.swift in Sources */,
 				985AC233292A9D1200480833 /* WeatherCollectionView.swift in Sources */,
 				98DA370F293D455900411E78 /* ConversionEntity.swift in Sources */,
 				985AC21A2922DDB400480833 /* ConversionModel.swift in Sources */,
 				98C413522922D8C60030AA68 /* WeatherModel.swift in Sources */,
+				98DA3715294492E300411E78 /* ConversionCurrencyTableViewCell.swift in Sources */,
 				988FED1C293A1481007228F3 /* NetworkService.swift in Sources */,
 				985AC2242922DF3D00480833 /* TranslationModel.swift in Sources */,
 				985AC2282922DF7100480833 /* TranslationViewController.swift in Sources */,
