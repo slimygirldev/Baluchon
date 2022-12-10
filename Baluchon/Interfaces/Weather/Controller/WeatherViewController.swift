@@ -18,6 +18,19 @@ class WeatherViewController: UIViewController {
     let collectionView = WeatherCollectionView(frame: .zero,
                                                collectionViewLayout: UICollectionViewFlowLayout())
 
+    lazy var retryLoadingButton: UIBarButtonItem = {
+        let switchCurrencyButton = UIBarButtonItem(title: "retry", style: .plain, target: self, action: #selector(reloadData))
+        switchCurrencyButton.image = UIImage(systemName: "arrow.2.squarepath")
+        switchCurrencyButton.tintColor = .systemBlue
+        return switchCurrencyButton
+    }()
+
+    @objc func reloadData() {
+        requestWeather(cityId: .paris)
+        requestWeather(cityId: .newYork)
+        print("weather data reloaded")
+    }
+
     init(_ networkService: NetworkWeatherService) {
         self.networkService = networkService
 
@@ -36,6 +49,8 @@ class WeatherViewController: UIViewController {
         title = "Weather"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+
+        navigationItem.rightBarButtonItem = retryLoadingButton
 
         requestWeather(cityId: .paris)
         requestWeather(cityId: .newYork)

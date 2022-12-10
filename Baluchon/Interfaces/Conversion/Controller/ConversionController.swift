@@ -15,7 +15,17 @@ class ConversionViewController: UIViewController {
 
     var tableView = ConversionTableView(frame: .zero, style: .insetGrouped)
 
-    //var conversionModel: ConversionModel?
+    lazy var switchCurrencyButton: UIBarButtonItem = {
+        let switchCurrencyButton = UIBarButtonItem(title: "switch", style: .plain, target: self, action: #selector(handleSwitch))
+        switchCurrencyButton.image = UIImage(systemName: "arrow.2.squarepath")
+        switchCurrencyButton.tintColor = .systemBlue
+        return switchCurrencyButton
+    }()
+
+    @objc func handleSwitch() {
+        tableView.switchCurrency()
+        print("currencies switched")
+    }
 
     init(_ networkService: ConversionNetworkService) {
         self.networkService = networkService
@@ -35,6 +45,8 @@ class ConversionViewController: UIViewController {
         title = "Conversion"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+
+        navigationItem.rightBarButtonItem = switchCurrencyButton
 
         tableView.conversionDelegate = self
         setupViews()

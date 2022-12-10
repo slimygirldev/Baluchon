@@ -52,9 +52,9 @@ class ConversionCurrencyTableViewCell: UITableViewCell {
                                                                      bottom: 10, right: 10))
     }
 
-    func configure(title: String, currency: Currencies) {
+    func configure(title: String, currency: String) {
         titleLabel.text = title
-        textCurrency.text = currency.rawValue
+        textCurrency.text = currency
     }
 
     private func addViews() {

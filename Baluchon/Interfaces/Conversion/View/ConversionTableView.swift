@@ -55,6 +55,13 @@ class ConversionTableView: UITableView, UITableViewDelegate, UITableViewDataSour
         fatalError("init(coder:) has not been implemented")
     }
 
+    func switchCurrency() {
+        let from = formModel.from
+        formModel.from = formModel.to
+        formModel.to = from
+        reloadData()
+    }
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return 4
     }
@@ -81,9 +88,9 @@ class ConversionTableView: UITableView, UITableViewDelegate, UITableViewDataSour
                                                            for: indexPath) as? ConversionCurrencyTableViewCell else { return UITableViewCell() }
             cell.isUserInteractionEnabled = false
             if indexPath.row == 0 {
-                cell.configure(title: "from :", currency: .EUR)
+                cell.configure(title: "from :", currency: formModel.from)
             } else {
-                cell.configure(title: "to :", currency: .USD)
+                cell.configure(title: "to :", currency: formModel.to)
             }
             return cell
         } else if indexPath.section == 1 && indexPath.row == 0 {
