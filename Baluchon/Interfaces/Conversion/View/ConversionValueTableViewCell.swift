@@ -1,5 +1,5 @@
 //
-//  ConversionResultTableViewCell.swift
+//  ConversionValueTableViewCell.swift
 //  Baluchon
 //
 //  Created by Lorene Brocourt on 10/12/2022.
@@ -7,15 +7,16 @@
 
 import UIKit
 
-class ConversionResultTableViewCell: UITableViewCell {
-    static let reuseIdentifier = "ConversionResultTableViewCell"
+class ConversionValueTableViewCell: UITableViewCell {
+    static let reuseIdentifier = "ConversionValueTableViewCell"
 
-    let textResult: UILabel = {
-        let textResult = UILabel()
-        textResult.text = "-1"
-        textResult.font = .systemFont(ofSize: 40)
-        textResult.translatesAutoresizingMaskIntoConstraints = false
-        return textResult
+    let textField: UITextField = {
+        let textField = UITextField()
+        textField.text = "0.0"
+        textField.font = .systemFont(ofSize: 40)
+        textField.keyboardType = .decimalPad
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
     }()
 
     let mainStackView: UIStackView = {
@@ -44,17 +45,14 @@ class ConversionResultTableViewCell: UITableViewCell {
     }
 
     private func addViews() {
-        addSubview(mainStackView)
+//        addSubview(mainStackView)
 
-        mainStackView.addArrangedSubview(textResult)
+        contentView.addSubview(mainStackView)
+        mainStackView.addArrangedSubview(textField)
 
         NSLayoutConstraint.activate([
             mainStackView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             mainStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
-    }
-
-    func configure(result: String) {
-        textResult.text = result
     }
 }

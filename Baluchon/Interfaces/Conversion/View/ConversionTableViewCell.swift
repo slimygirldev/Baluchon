@@ -14,7 +14,6 @@ class ConversionTableViewCell: UITableViewCell {
         let textField = UITextField()
         textField.text = "0.0"
         textField.font = .systemFont(ofSize: 20)
-        textField.backgroundColor = .cyan
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -23,20 +22,17 @@ class ConversionTableViewCell: UITableViewCell {
         let titleLabel = UILabel()
         titleLabel.font = .systemFont(ofSize: 20)
         titleLabel.textColor = .lightGray
-        titleLabel.text = "Default"
+        titleLabel.text = "Enter a value :"
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.backgroundColor = .blue
         return titleLabel
     }()
 
     let mainStackView: UIStackView = {
         let mainStackView = UIStackView()
         mainStackView.axis = .horizontal
-        mainStackView.alignment = .leading
-        mainStackView.distribution = .fillProportionally
+        mainStackView.distribution = .fill
         mainStackView.spacing = 5
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
-        mainStackView.backgroundColor = .magenta
         return mainStackView
     }()
 
@@ -63,10 +59,12 @@ class ConversionTableViewCell: UITableViewCell {
         mainStackView.addArrangedSubview(textField)
 
         NSLayoutConstraint.activate([
-            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant : 20),
             mainStackView.topAnchor.constraint(equalTo: topAnchor),
             mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+
+            titleLabel.widthAnchor.constraint(equalToConstant: 125)
         ])
     }
 }
