@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+enum Langages: String {
+    case fr = "Français"
+    case eng = "English"
+}
