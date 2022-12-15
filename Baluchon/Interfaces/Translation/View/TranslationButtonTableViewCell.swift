@@ -1,21 +1,20 @@
 //
-//  ConversionValueTableViewCell.swift
+//  TranslationButtonTableViewCell.swift
 //  Baluchon
 //
-//  Created by Lorene Brocourt on 10/12/2022.
+//  Created by Lorene Brocourt on 14/12/2022.
 //
 
 import UIKit
 
-class ConversionValueTableViewCell: UITableViewCell {
-    static let reuseIdentifier = "ConversionValueTableViewCell"
+class TranslationButtonTableViewCell: UITableViewCell {
+    static let reuseIdentifier = "TranslationButtonTableViewCell"
 
-    let textField: UITextField = {
-        let textField = UITextField()
-        textField.text = "0.0"
-        textField.font = .systemFont(ofSize: 40)
-        textField.keyboardType = .decimalPad
-        textField.textAlignment = .center
+    let textConvert: UILabel = {
+        let textField = UILabel()
+        textField.text = "Translate"
+        textField.font = .systemFont(ofSize: 22)
+        textField.textColor = .white
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -31,6 +30,7 @@ class ConversionValueTableViewCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.backgroundColor = .systemBlue
         addViews()
     }
 
@@ -46,14 +46,13 @@ class ConversionValueTableViewCell: UITableViewCell {
     }
 
     private func addViews() {
-        contentView.addSubview(mainStackView)
-        mainStackView.addArrangedSubview(textField)
+        addSubview(mainStackView)
+
+        mainStackView.addArrangedSubview(textConvert)
 
         NSLayoutConstraint.activate([
-            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            mainStackView.topAnchor.constraint(equalTo: topAnchor),
-            mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            mainStackView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            mainStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
     }
 }

@@ -43,8 +43,6 @@ class WeatherCollectionView: UICollectionView, UICollectionViewDelegate, UIColle
             let model = models[indexPath.row]
             cell.configure(model: model)
         }
-
-        cell.backgroundColor = .blue
         return cell
     }
 }

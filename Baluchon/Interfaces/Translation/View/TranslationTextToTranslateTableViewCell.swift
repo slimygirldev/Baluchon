@@ -1,36 +1,37 @@
 //
-//  ConversionValueTableViewCell.swift
+//  TranslationTextToTranslateTableViewCell.swift
 //  Baluchon
 //
-//  Created by Lorene Brocourt on 10/12/2022.
+//  Created by Lorene Brocourt on 14/12/2022.
 //
 
 import UIKit
 
-class ConversionValueTableViewCell: UITableViewCell {
-    static let reuseIdentifier = "ConversionValueTableViewCell"
+class TranslationTextToTranslateTableViewCell: UITableViewCell {
 
-    let textField: UITextField = {
-        let textField = UITextField()
-        textField.text = "0.0"
-        textField.font = .systemFont(ofSize: 40)
-        textField.keyboardType = .decimalPad
-        textField.textAlignment = .center
+    static let reuseIdentifier = "TranslationTextToTranslateTableViewCell"
+
+    let textField: UITextView = {
+        let textField = UITextView()
+        textField.font = .systemFont(ofSize: 20)
+        textField.textAlignment = .left
+        textField.keyboardType = .default
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
 
     let mainStackView: UIStackView = {
         let mainStackView = UIStackView()
-        mainStackView.axis = .horizontal
+        mainStackView.axis = .vertical
         mainStackView.distribution = .fill
         mainStackView.spacing = 5
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
         return mainStackView
     }()
-
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.backgroundColor = .systemBlue
         addViews()
     }
 
@@ -47,6 +48,7 @@ class ConversionValueTableViewCell: UITableViewCell {
 
     private func addViews() {
         contentView.addSubview(mainStackView)
+
         mainStackView.addArrangedSubview(textField)
 
         NSLayoutConstraint.activate([
