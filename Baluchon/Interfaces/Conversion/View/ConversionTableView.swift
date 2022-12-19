@@ -67,7 +67,6 @@ class ConversionTableView: UITableView, UITableViewDelegate, UITableViewDataSour
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
         if section == 0 {
             return 2
         } else {
@@ -107,7 +106,6 @@ class ConversionTableView: UITableView, UITableViewDelegate, UITableViewDataSour
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ConversionResultTableViewCell.reuseIdentifier,
                                                            for: indexPath) as? ConversionResultTableViewCell else { return UITableViewCell() }
             cell.selectionStyle = .none
-            print(result.clean)
             cell.configure(result: "\(result.clean)")
             return cell
         } else {
