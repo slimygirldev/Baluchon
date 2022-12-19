@@ -12,9 +12,8 @@ enum NetworkError: Error {
 }
 
 class NetworkService {
-
+// for request without header
     func request<JSONType>(for queryURL: String,
-                           //ici on précise qu'on veut le Type de JSONType et non une entité de ce 'type'
                            entityType: JSONType.Type,
                            _ completionHandler: @escaping ((JSONType?, Error?) -> Void)) where JSONType: Decodable {
         if let url = URL(string: queryURL) {
@@ -32,9 +31,8 @@ class NetworkService {
             }.resume()
         }
     }
-
+// for request with header
     func request<JSONType>(for queryURL: URLRequest,
-                           //ici on précise qu'on veut le Type de JSONType et non une entité de ce 'type'
                            entityType: JSONType.Type,
                            _ completionHandler: @escaping ((JSONType?, Error?) -> Void)) where JSONType: Decodable {
 
@@ -44,12 +42,16 @@ class NetworkService {
                 completionHandler(nil, error)
                 return
             }
-
             if let data = data {
-                let json = try? JSONDecoder().decode(entityType, from: data)
-                completionHandler(json, nil)
+                do {
+                    let json = try JSONDecoder().decode(entityType, from: data)
+                    print("data dans NS \(String(describing: json))")
+                    completionHandler(json, nil)
+                }
+                catch let error {
+                    print(error)
+                }
             }
         }.resume()
-
     }
 }

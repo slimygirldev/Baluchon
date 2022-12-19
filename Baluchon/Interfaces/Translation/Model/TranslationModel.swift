@@ -7,7 +7,24 @@
 
 import Foundation
 
-enum Langages: String {
-    case fr = "Français"
-    case eng = "English"
+enum Languages: String {
+    case fr = "fr"
+    case en = "en"
+}
+
+enum Format: String {
+    case text = "text"
+}
+
+struct TranslationModel {
+
+    var source: String
+    var target: String
+    var translatedText: String
+}
+
+struct TranslationFormModel {
+    var from: String
+    var to: String
+    var text: String
 }

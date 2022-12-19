@@ -33,10 +33,14 @@ class ConversionNetworkService {
             guard let entity = data else {
                 return
             }
+            // ici on a reçu l'entité du serveur et on céée notre model a partir de la data
             let conversionModel = ConversionModel(from: entity.query.from,
                                                   to: entity.query.to,
                                                   amount: entity.query.amount,
                                                   result: entity.result)
+            // et on renvoit le model
+            // le network ne connait pas le model mais l'entité
+            // et le VC ne connait que le model : ce qui permet d'assurer un découplage entre le reseau et le corps de l'app
             completion(conversionModel, nil)
         }
     }

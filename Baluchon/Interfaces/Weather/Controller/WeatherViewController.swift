@@ -67,7 +67,6 @@ class WeatherViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.present(self.alertService.alertError(alertType: .fetchError), animated: true, completion: nil)
                 }
-
                 return
             }
 

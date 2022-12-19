@@ -7,7 +7,25 @@
 
 import UIKit
 
+protocol TranslationTableViewDelegate: AnyObject {
+    func translationTableViewDelegateTappedConvertButton(model: TranslationFormModel)
+}
+
+enum LanguagesTitles: String {
+    case fr = "Français"
+    case en = "English"
+}
+
 class TranslationTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
+
+    weak var translationDelegate: TranslationTableViewDelegate?
+
+    var formModel: TranslationFormModel = TranslationFormModel(from: Languages.fr.rawValue,
+                                                               to: Languages.en.rawValue,
+                                                               text: "Bonjour")
+    var model: TranslationModel?
+
+    var translatedText: String = ""
 
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
@@ -39,11 +57,12 @@ class TranslationTableView: UITableView, UITableViewDelegate, UITableViewDataSou
         fatalError("init(coder:) has not been implemented")
     }
 
-    func switchCurrency() {
-        //        let from = formModel.from
-        //        formModel.from = formModel.to
-        //        formModel.to = from
+    func switchLanguages() {
+        let from = formModel.from
+        formModel.from = formModel.to
+        formModel.to = from
         reloadData()
+
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -60,7 +79,7 @@ class TranslationTableView: UITableView, UITableViewDelegate, UITableViewDataSou
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 1 && indexPath.row == 0 || indexPath.section == 3 && indexPath.row == 0{
-            return 200
+            return 150
         }
         return 44.0
     }
@@ -70,11 +89,11 @@ class TranslationTableView: UITableView, UITableViewDelegate, UITableViewDataSou
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TranslationLangagesTableViewCell.reuseIdentifier,
                                                            for: indexPath) as? TranslationLangagesTableViewCell else { return UITableViewCell() }
             cell.isUserInteractionEnabled = false
-                        if indexPath.row == 0 {
-                            cell.configure(title: "from: ", langage: Langages.fr.rawValue)
-                        } else {
-                            cell.configure(title: "to: ", langage: Langages.eng.rawValue)
-                        }
+            if indexPath.row == 0 {
+                cell.configure(title: "from: ", langage: formModel.from)
+            } else {
+                cell.configure(title: "to: ", langage: formModel.to)
+            }
             return cell
         } else if indexPath.section == 1 && indexPath.row == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TranslationTextToTranslateTableViewCell.reuseIdentifier,
@@ -89,7 +108,7 @@ class TranslationTableView: UITableView, UITableViewDelegate, UITableViewDataSou
         } else if indexPath.section == 3 && indexPath.row == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TranslationTextTranslatedCell.reuseIdentifier,
                                                            for: indexPath) as? TranslationTextTranslatedCell else { return UITableViewCell()}
-            cell.isUserInteractionEnabled = true
+            cell.passText(translatedText: translatedText)
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TranslationLangagesTableViewCell.reuseIdentifier,
@@ -102,7 +121,7 @@ class TranslationTableView: UITableView, UITableViewDelegate, UITableViewDataSou
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
-            return "Langages"
+            return "Languages"
         } else if section == 1 {
             return "To translate :"
         } else if section == 3 {
@@ -112,14 +131,13 @@ class TranslationTableView: UITableView, UITableViewDelegate, UITableViewDataSou
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? TranslationTextTranslatedCell else {
+        guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? TranslationTextToTranslateTableViewCell else {
             return
         }
-        //        formModel.amount = Float(cell.textField.text ?? "") ?? 0.0
-        //
-        //        if indexPath.section == 2 && indexPath.row == 0 {
-        //            conversionDelegate?.conversionTableViewDelegateTappedConvertButton(model: formModel)
-        //        }
+        formModel.text = cell.textField.text
+        if indexPath.section == 2 && indexPath.row == 0 {
+            translationDelegate?.translationTableViewDelegateTappedConvertButton(model: formModel)
+        }
     }
 }
 

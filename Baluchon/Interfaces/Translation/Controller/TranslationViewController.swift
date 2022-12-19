@@ -11,12 +11,27 @@ class TranslationViewController: UIViewController {
 
     var tableView = TranslationTableView(frame: .zero, style: .insetGrouped)
 
-//    let translationView = TranslationView()
+    var networkService: TranslationNetworkService
 
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    lazy var switchLanguagesButton: UIBarButtonItem = {
+        let switchLanguagesButton = UIBarButtonItem(title: "switch", style: .plain, target: self, action: #selector(handleSwitch))
+        switchLanguagesButton.image = UIImage(systemName: "arrow.2.squarepath")
+        switchLanguagesButton.tintColor = .systemBlue
+        return switchLanguagesButton
+    }()
+
+    @objc func handleSwitch() {
+        tableView.switchLanguages()
+        print("languages switched")
+    }
+
+    init(_ networkService: TranslationNetworkService) {
+        self.networkService = networkService
+
+        super.init(nibName: nil, bundle: nil)
         tabBarItem.image = UIImage(systemName: "textformat.size")
         tabBarItem.title = "Translation"
+
     }
 
     required init?(coder: NSCoder) {
@@ -30,23 +45,28 @@ class TranslationViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
 
+        navigationItem.rightBarButtonItem = switchLanguagesButton
+
+        tableView.translationDelegate = self
         setupViews()
         setupConstraints()
+
     }
-//
-//    private func setupViews() {
-//        translationView.translatesAutoresizingMaskIntoConstraints = false
-//        view.addSubview(translationView)
-//    }
-//
-//    private func setupConstraints() {
-//        NSLayoutConstraint.activate([
-//            translationView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-//            translationView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-//            translationView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-//            translationView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-//        ])
-//    }
+
+    private func requestTranslation(model: TranslationFormModel) {
+        let completionHandler: ((TranslationModel?, Error?) -> Void) = { model, error in
+
+            self.tableView.translatedText = model?.translatedText ?? ""
+
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+        networkService.fetchTranslationwithComponents(source: model.from,
+                                                      target: model.to,
+                                                      textToTranslate: model.text,
+                                                      completion: completionHandler)
+    }
 
     private func setupViews() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -60,5 +80,11 @@ class TranslationViewController: UIViewController {
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+}
+
+extension TranslationViewController: TranslationTableViewDelegate {
+    func translationTableViewDelegateTappedConvertButton(model: TranslationFormModel) {
+        requestTranslation(model: model)
     }
 }

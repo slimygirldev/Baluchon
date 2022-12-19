@@ -11,12 +11,12 @@ import UIKit
 class TranslationLangagesTableViewCell: UITableViewCell {
     static let reuseIdentifier = "TranslationLangagesTableViewCell"
 
-    let textLangage: UILabel = {
-        let textLangage = UILabel()
-        textLangage.text = Langages.fr.rawValue
-        textLangage.font = .systemFont(ofSize: 20)
-        textLangage.translatesAutoresizingMaskIntoConstraints = false
-        return textLangage
+    let langageLabel: UILabel = {
+        let langageLabel = UILabel()
+        langageLabel.text = Languages.fr.rawValue
+        langageLabel.font = .systemFont(ofSize: 20)
+        langageLabel.translatesAutoresizingMaskIntoConstraints = false
+        return langageLabel
     }()
 
     let titleLabel: UILabel = {
@@ -55,14 +55,14 @@ class TranslationLangagesTableViewCell: UITableViewCell {
 
     func configure(title: String, langage: String) {
         titleLabel.text = title
-        textLangage.text = langage
+        langageLabel.text = langage
     }
 
     private func addViews() {
         addSubview(mainStackView)
 
         mainStackView.addArrangedSubview(titleLabel)
-        mainStackView.addArrangedSubview(textLangage)
+        mainStackView.addArrangedSubview(langageLabel)
 
         NSLayoutConstraint.activate([
             mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant : 20),

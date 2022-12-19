@@ -15,7 +15,6 @@ struct WeatherEntity: Decodable {
 
     struct Weather: Decodable {
         var description: String
-        //        var icon: String
     }
 
     struct Main: Decodable {
@@ -27,12 +26,10 @@ struct WeatherEntity: Decodable {
         enum CodingKeys: String, CodingKey {
             case tempMin = "temp_min"
             case tempMax = "temp_max"
-        //  case icon = "weather.icon"
             case temp
             case humidity
         }
     }
-    
 }
 
 

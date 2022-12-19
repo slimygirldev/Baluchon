@@ -9,8 +9,9 @@ import UIKit
 
 class TabBarViewController: UITabBarController {
     // Service/Depencies
-    let networkService: NetworkWeatherService = NetworkWeatherService()
+    let weatherNetworkService: NetworkWeatherService = NetworkWeatherService()
     let conversionNetworkService: ConversionNetworkService = ConversionNetworkService()
+    let translationNetworkService: TranslationNetworkService = TranslationNetworkService()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,9 +25,9 @@ class TabBarViewController: UITabBarController {
 
     func setupVCs() {
         viewControllers = [
-            UINavigationController(rootViewController: WeatherViewController(networkService)),
+            UINavigationController(rootViewController: WeatherViewController(weatherNetworkService)),
             UINavigationController(rootViewController: ConversionViewController(conversionNetworkService)),
-            UINavigationController(rootViewController: TranslationViewController()),
+            UINavigationController(rootViewController: TranslationViewController(translationNetworkService)),
         ]
         viewControllers?.forEach {
             $0.edgesForExtendedLayout = []

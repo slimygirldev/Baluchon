@@ -16,6 +16,7 @@ class TranslationTextToTranslateTableViewCell: UITableViewCell {
         textField.font = .systemFont(ofSize: 20)
         textField.textAlignment = .left
         textField.keyboardType = .default
+        textField.clearsOnInsertion = true
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()

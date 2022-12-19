@@ -13,6 +13,7 @@ class TranslationTextTranslatedCell: UITableViewCell {
 
     let textField: UITextView = {
         let textField = UITextView()
+        textField.font = .systemFont(ofSize: 20)
         textField.isEditable = false
         textField.textAlignment = .left
         textField.keyboardType = .default
@@ -56,6 +57,9 @@ class TranslationTextTranslatedCell: UITableViewCell {
             mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+    }
+    func passText(translatedText: String) {
+        textField.text = translatedText
     }
 }
 
