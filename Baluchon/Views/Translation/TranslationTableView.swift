@@ -11,11 +11,6 @@ protocol TranslationTableViewDelegate: AnyObject {
     func translationTableViewDelegateTappedConvertButton(model: TranslationFormModel)
 }
 
-enum LanguagesTitles: String {
-    case fr = "Français"
-    case en = "English"
-}
-
 class TranslationTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
 
     weak var translationDelegate: TranslationTableViewDelegate?
