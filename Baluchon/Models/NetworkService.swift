@@ -13,9 +13,9 @@ enum NetworkError: Error {
 
 class NetworkService {
 // for request without header
-    func request<JSONType>(for queryURL: String,
-                           entityType: JSONType.Type,
-                           _ completionHandler: @escaping ((JSONType?, Error?) -> Void)) where JSONType: Decodable {
+    func request<JSONType: Decodable>(for queryURL: String,
+                                      entityType: JSONType.Type,
+                                      _ completionHandler: @escaping ((JSONType?, Error?) -> Void)) {
         if let url = URL(string: queryURL) {
             URLSession.shared.dataTask(with: url) { (data, response, error) in
                 guard error == nil else {
@@ -25,8 +25,9 @@ class NetworkService {
                 }
                 
                 if let data = data {
-                    let json = try? JSONDecoder().decode(entityType, from: data)
-                    completionHandler(json, nil)
+                    // transform the data into EntityType
+                    let entity = try? JSONDecoder().decode(entityType, from: data)
+                    completionHandler(entity, nil)
                 }
             }.resume()
         }
@@ -44,9 +45,9 @@ class NetworkService {
             }
             if let data = data {
                 do {
-                    let json = try JSONDecoder().decode(entityType, from: data)
-                    print("data dans NS \(String(describing: json))")
-                    completionHandler(json, nil)
+                    let entity = try JSONDecoder().decode(entityType, from: data)
+                    print("data dans NS \(String(describing: entity))")
+                    completionHandler(entity, nil)
                 }
                 catch let error {
                     print(error)
