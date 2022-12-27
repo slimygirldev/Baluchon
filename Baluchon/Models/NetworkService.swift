@@ -11,13 +11,25 @@ enum NetworkError: Error {
     case fetchError
 }
 
-class NetworkService {
+protocol NetworkProtocol {
+    var networkClient: URLSession { get set }
+    func request<JSONType>(for queryURL: String,
+                           entityType: JSONType.Type,
+                           _ completionHandler: @escaping ((JSONType?, Error?) -> Void)) where JSONType: Decodable
+    func request<JSONType>(for queryURL: URLRequest,
+                           entityType: JSONType.Type,
+                           _ completionHandler: @escaping ((JSONType?, Error?) -> Void)) where JSONType: Decodable
+
+}
+
+//class NetworkService {
+extension NetworkProtocol {
 // for request without header
     func request<JSONType: Decodable>(for queryURL: String,
                                       entityType: JSONType.Type,
                                       _ completionHandler: @escaping ((JSONType?, Error?) -> Void)) {
         if let url = URL(string: queryURL) {
-            URLSession.shared.dataTask(with: url) { (data, response, error) in
+            networkClient.dataTask(with: url) { (data, response, error) in
                 guard error == nil else {
                     print("Error occured, \(error.debugDescription)")
                     completionHandler(nil, error)
@@ -37,7 +49,7 @@ class NetworkService {
                            entityType: JSONType.Type,
                            _ completionHandler: @escaping ((JSONType?, Error?) -> Void)) where JSONType: Decodable {
 
-        URLSession.shared.dataTask(with: queryURL) { (data, response, error) in
+        networkClient.dataTask(with: queryURL) { (data, response, error) in
             guard error == nil else {
                 print("Error occured, \(error.debugDescription)")
                 completionHandler(nil, error)
