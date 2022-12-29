@@ -53,7 +53,6 @@ struct WeatherModel {
 
     var mainWeatherDescription: String
 
-
     func setBackgroundColor() -> [CGColor] {
         let hour = Calendar.current.component(.hour, from: Date())
 

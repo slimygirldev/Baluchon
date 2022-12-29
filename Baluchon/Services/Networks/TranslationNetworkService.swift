@@ -11,7 +11,6 @@ class TranslationNetworkService: NetworkProtocol {
     var networkClient: URLSession
     private let apiKey: String = ""
     private let translationURL: String = "https://translation.googleapis.com/language/translate/v2"
-//    private let networkService: NetworkService = NetworkService()
 
     init(networkClient: URLSession = .shared) {
         self.networkClient = networkClient

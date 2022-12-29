@@ -9,9 +9,9 @@ import UIKit
 
 class TabBarViewController: UITabBarController {
     // Service/Depencies
-    let weatherNetworkService: NetworkWeatherService = NetworkWeatherService()
-    let conversionNetworkService: ConversionNetworkService = ConversionNetworkService()
-    let translationNetworkService: TranslationNetworkService = TranslationNetworkService()
+    let weatherNetworkService: NetworkWeatherService = NetworkWeatherService(networkClient: .shared)
+    let conversionNetworkService: ConversionNetworkService = ConversionNetworkService(networkClient: .shared)
+    let translationNetworkService: TranslationNetworkService = TranslationNetworkService(networkClient: .shared)
 
     override func viewDidLoad() {
         super.viewDidLoad()

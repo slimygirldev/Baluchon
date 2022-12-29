@@ -1,5 +1,5 @@
 //
-//  NetworkService.swift
+//  NetworkProtocol.swift
 //  Baluchon
 //
 //  Created by Lorene Brocourt on 02/12/2022.
@@ -22,7 +22,6 @@ protocol NetworkProtocol {
 
 }
 
-//class NetworkService {
 extension NetworkProtocol {
 // for request without header
     func request<JSONType: Decodable>(for queryURL: String,

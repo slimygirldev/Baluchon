@@ -11,7 +11,6 @@ class ConversionNetworkService: NetworkProtocol {
     var networkClient: URLSession
     private let apiKey: String = ""
     private let currencyURL: String = "https://api.apilayer.com/fixer/"
-//    private let networkService: NetworkService = NetworkService()
 
     init(networkClient: URLSession = .shared) {
         self.networkClient = networkClient

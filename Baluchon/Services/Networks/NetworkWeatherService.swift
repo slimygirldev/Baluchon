@@ -12,8 +12,9 @@ class NetworkWeatherService: NetworkProtocol {
     var networkClient: URLSession
     private let apiKey: String = ""
     private let weatherURL: String = "https://api.openweathermap.org/data/2.5/weather"
-//    private let networkService: NetworkService = NetworkService()
 
+    // init paraùetre par default
+    // injection de dépendance
     init(networkClient: URLSession = .shared) {
         self.networkClient = networkClient
     }

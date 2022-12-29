@@ -1,0 +1,14 @@
+{
+    "success": true,
+    "query": {
+        "from": "EUR",
+        "to": "USD",
+        "amount": 1
+    },
+    "info": {
+        "timestamp": 1671198903,
+        "rate": 1.062846
+    },
+    "date": "2022-12-16",
+    "result": 1.062846
+}
