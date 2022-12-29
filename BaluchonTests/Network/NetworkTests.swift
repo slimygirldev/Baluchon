@@ -81,7 +81,7 @@ class NetworkTests: XCTestCase {
     func testGivenMockUrlSession_WhenRequestForTranslationWithMockedJson_ThenTranslationModelCorrectlyCreated() throws {
         let conversionAPI = TranslationNetworkService(networkClient: dummyUrlSession)
 
-        let mockData = try loadData(from: "Conversion")
+        let mockData = try loadData(from: "Translation")
 
         MockURLProtocol.requestHandler = { request in
             return (HTTPURLResponse(), mockData)
@@ -89,7 +89,7 @@ class NetworkTests: XCTestCase {
 
         let expectation = XCTestExpectation(description: "response")
 
-        conversionAPI.fetchTranslation(source: "fr", target: "en", textToTranslate: "Bonjour, je suis heureux.") { model, error in
+        conversionAPI.fetchTranslationwithComponents(source: "fr", target: "en", textToTranslate: "Bonjour, je suis heureux.") { model, error in
             XCTAssertEqual(model!.source, "fr")
             XCTAssertEqual(model!.target, "en")
             XCTAssertEqual(model!.translatedText, "Hello, I'm happy.")

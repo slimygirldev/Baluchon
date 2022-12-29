@@ -22,7 +22,7 @@ class TranslationNetworkService: NetworkProtocol {
                                         completion: @escaping ((TranslationModel?, Error?) -> Void)) {
 
         if let url = URLComponents(string: "\(translationURL)/?q=\(textToTranslate)&source=\(source)&target=\(target)&format=text&key=\(apiKey)")?.url {
-            print(url)
+
             var request = URLRequest(url: url,timeoutInterval: Double.infinity)
 
             request.httpMethod = "GET"
@@ -43,44 +43,10 @@ class TranslationNetworkService: NetworkProtocol {
                 let translationModel = TranslationModel(source: source,
                                                         target: target,
                                                         translatedText: entity.data.translations.first?.translatedText ?? "")
-                print(translationModel)
                 completion(translationModel, nil)
             }
         } else {
             print("error")
-        }
-    }
-
-    func fetchTranslation(source: String,
-                          target: String,
-                          textToTranslate: String,
-                          completion: @escaping ((TranslationModel?, Error?) -> Void)) {
-
-
-        let url = "\(translationURL)/?q=\(textToTranslate)&source=\(source)&target=\(target)&format=text&key=\(apiKey)"
-        print(url)
-        var request = URLRequest(url: URL(string: url)!,timeoutInterval: Double.infinity)
-
-        request.httpMethod = "GET"
-        request.addValue(apiKey, forHTTPHeaderField: "apikey")
-
-        self.request(for: request, entityType: TranslationEntity.self) {
-            data, error  in
-            guard error == nil else {
-                print("Error : \(error.debugDescription)")
-                completion(nil, error)
-                return
-            }
-            guard let entity = data else {
-                completion(nil, error)
-                print("data dans TNS \(String(describing: data))")
-                return
-            }
-            let translationModel = TranslationModel(source: source,
-                                                    target: target,
-                                                    translatedText: entity.data.translations.first?.translatedText ?? "")
-            print(translationModel)
-            completion(translationModel, nil)
         }
     }
 }
