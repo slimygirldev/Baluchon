@@ -22,29 +22,31 @@ class ConversionNetworkService: NetworkProtocol {
                        completion: @escaping ((ConversionModel?, Error?) -> Void)) {
 
         let url = "\(currencyURL)convert?to=\(to)&from=\(from)&amount=\(amount)"
-        var request = URLRequest(url: URL(string: url)!,timeoutInterval: Double.infinity)
-        request.httpMethod = "GET"
-        request.addValue(apiKey, forHTTPHeaderField: "apikey")
 
-        self.request(for: request, entityType: ConversionEntity.self) {
-            data, error  in
-            guard error == nil else {
-                print("Error : \(error.debugDescription)")
-                completion(nil, error)
-                return
+        if let unwrapped = URL(string: url) {
+            var request = URLRequest(url: unwrapped, timeoutInterval: Double.infinity)
+            request.httpMethod = "GET"
+            request.addValue(apiKey, forHTTPHeaderField: "apikey")
+
+            self.request(for: request, entityType: ConversionEntity.self) {
+                data, error  in
+                guard error == nil else {
+                    print("Error : \(error.debugDescription)")
+                    completion(nil, error)
+                    return
+                }
+                guard let entity = data else {
+                    return
+                }
+                let conversionModel = ConversionModel(from: entity.query.from,
+                                                      to: entity.query.to,
+                                                      amount: entity.query.amount,
+                                                      result: entity.result)
+
+                completion(conversionModel, nil)
             }
-            guard let entity = data else {
-                return
-            }
-            // ici on a reçu l'entité du serveur et on céée notre model a partir de la data
-            let conversionModel = ConversionModel(from: entity.query.from,
-                                                  to: entity.query.to,
-                                                  amount: entity.query.amount,
-                                                  result: entity.result)
-            // et on renvoit le model
-            // le network ne connait pas le model mais l'entité
-            // et le VC ne connait que le model : ce qui permet d'assurer un découplage entre le reseau et le corps de l'app
-            completion(conversionModel, nil)
+        } else {
+            print("error")
         }
     }
 }

@@ -63,7 +63,6 @@ class WeatherViewController: UIViewController {
         networkService.fetchWeather(for: cityId, { weather, error  in
 
             guard error == nil else {
-                // Network service envoit une erreur - ds ce scope je sais que error existe != nil
                 DispatchQueue.main.async {
                     self.present(self.alertService.alertError(alertType: .fetchError), animated: true, completion: nil)
                 }
