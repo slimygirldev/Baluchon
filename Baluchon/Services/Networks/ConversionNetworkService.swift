@@ -7,11 +7,14 @@
 
 import Foundation
 
-class ConversionNetworkService {
-
+class ConversionNetworkService: NetworkProtocol {
+    var networkClient: URLSession
     private let apiKey: String = ""
     private let currencyURL: String = "https://api.apilayer.com/fixer/"
-    private let networkService: NetworkService = NetworkService()
+
+    init(networkClient: URLSession = .shared) {
+        self.networkClient = networkClient
+    }
 
     func fetchCurrency(from: String,
                        amount: Float,
@@ -23,7 +26,7 @@ class ConversionNetworkService {
         request.httpMethod = "GET"
         request.addValue(apiKey, forHTTPHeaderField: "apikey")
 
-        networkService.request(for: request, entityType: ConversionEntity.self) {
+        self.request(for: request, entityType: ConversionEntity.self) {
             data, error  in
             guard error == nil else {
                 print("Error : \(error.debugDescription)")

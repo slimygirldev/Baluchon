@@ -8,18 +8,23 @@
 
 import Foundation
 
-class NetworkWeatherService {
-
+class NetworkWeatherService: NetworkProtocol {
+    var networkClient: URLSession
     private let apiKey: String = ""
     private let weatherURL: String = "https://api.openweathermap.org/data/2.5/weather"
-    private let networkService: NetworkService = NetworkService()
+
+    // init paraùetre par default
+    // injection de dépendance
+    init(networkClient: URLSession = .shared) {
+        self.networkClient = networkClient
+    }
 
     func fetchWeather(for cityId: City, _ completion: @escaping ((WeatherModel?, Error?) -> Void)) {
 
         let queryParameters: String = "?id=\(cityId.rawValue)&appid=\(apiKey)"
         let queryURL: String = weatherURL + queryParameters
 
-        networkService.request(for: queryURL, entityType: WeatherEntity.self) {
+        self.request(for: queryURL, entityType: WeatherEntity.self) {
             data, error  in
             guard error == nil else {
                 print("Error : \(error.debugDescription)")
