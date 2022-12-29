@@ -257,8 +257,8 @@
 			children = (
 				98DA3710293D534C00411E78 /* ConversionTableView.swift */,
 				98DA3712293D54DA00411E78 /* ConversionTableViewCell.swift */,
-				98DA3714294492E300411E78 /* ConversionCurrencyTableViewCell.swift */,
 				98DA37182944BA4500411E78 /* ConversionButtonTableViewCell.swift */,
+				98DA3714294492E300411E78 /* ConversionCurrencyTableViewCell.swift */,
 				98DA371B2944BDC800411E78 /* ConversionValueTableViewCell.swift */,
 				98DA371629449D7400411E78 /* ConversionResultTableViewCell.swift */,
 			);
