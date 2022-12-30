@@ -33,5 +33,9 @@ class MockURLProtocol: URLProtocol {
         }
     }
 
+    func giveError() throws -> Error {
+        throw MockError.networkError
+    }
+
     override func stopLoading() { }
 }

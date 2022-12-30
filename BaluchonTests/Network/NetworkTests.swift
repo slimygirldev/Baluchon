@@ -25,10 +25,6 @@ class NetworkTests: XCTestCase {
         return try Data(contentsOf: url)
     }
 
-    private func loadJSON(from data: Data) throws -> [String: Any]? {
-        return try JSONSerialization.jsonObject(with: data) as? [String: Any]
-    }
-
     func testGivenMockUrlSession_WhenRequestForWeatherWithMockedJson_ThenWeatherModelCorrectlyCreated() throws {
         let weatherAPI = NetworkWeatherService(networkClient: dummyUrlSession)
 
@@ -52,9 +48,44 @@ class NetworkTests: XCTestCase {
             XCTAssertEqual(model!.tempMin, 283.8)
             XCTAssertEqual(model!.temp, 284.64)
             XCTAssertEqual(model!.humidity, 71)
+            XCTAssertEqual(model!.setBackgroundColor(hour: 9), BackgroundColors.day.matchingColors)
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 10)
+    }
+
+    func testGiven_When_Then() throws {
+        let weatherAPI = NetworkWeatherService(networkClient: dummyUrlSession)
+
+        // Set mock data
+        _ = try loadData(from: "Weather")
+
+        // Return data in mock request handler
+        MockURLProtocol.requestHandler = { request in
+            throw MockError.networkError
+        }
+
+        weatherAPI.fetchWeather(for: .paris) { model, error in
+            // We have a model, here we can test the values from the json
+            XCTAssertNotNil(error)
+        }
+    }
+
+    func testGiven_When_Theny() throws {
+        let weatherAPI = ConversionNetworkService(networkClient: dummyUrlSession)
+
+        // Set mock data
+        _ = try loadData(from: "Conversion")
+
+        // Return data in mock request handler
+        MockURLProtocol.requestHandler = { request in
+            throw MockError.networkError
+        }
+
+        weatherAPI.fetchCurrency(from: "EUR", amount: 1, to: "USD") { model, error in
+            // We have a model, here we can test the values from the json
+            XCTAssertNotNil(error)
+        }
     }
 
     func testGivenMockUrlSession_WhenRequestForConversionWithMockedJson_ThenConversionModelCorrectlyCreated() throws {

@@ -46,6 +46,10 @@ class TranslationTextTranslatedCell: UITableViewCell {
                                                                      bottom: 10, right: 10))
     }
 
+    func toto(text: String) {
+        textField.text = text
+    }
+
     private func addViews() {
         addSubview(mainStackView)
 

@@ -139,7 +139,7 @@ class WeatherCollectionViewCell: UICollectionViewCell {
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = bounds
         
-        gradientLayer.colors = model.setBackgroundColor()
+        gradientLayer.colors = model.setBackgroundColor(hour: Calendar.current.component(.hour, from: Date()))
         contentView.layer.insertSublayer(gradientLayer, at: 0)
     }
 }

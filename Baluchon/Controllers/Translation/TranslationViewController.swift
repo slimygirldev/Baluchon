@@ -22,7 +22,6 @@ class TranslationViewController: UIViewController {
 
     @objc func handleSwitch() {
         tableView.switchLanguages()
-        print("languages switched")
     }
 
     init(_ networkService: TranslationNetworkService) {
@@ -50,7 +49,6 @@ class TranslationViewController: UIViewController {
         tableView.translationDelegate = self
         setupViews()
         setupConstraints()
-
     }
 
     private func requestTranslation(model: TranslationFormModel) {

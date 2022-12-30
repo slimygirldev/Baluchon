@@ -6,6 +6,7 @@
 //
 
 import XCTest
+@testable import Baluchon
 
 final class BaluchonTests: XCTestCase {
 

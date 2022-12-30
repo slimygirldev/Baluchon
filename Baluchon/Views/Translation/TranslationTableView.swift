@@ -18,9 +18,9 @@ class TranslationTableView: UITableView, UITableViewDelegate, UITableViewDataSou
     var formModel: TranslationFormModel = TranslationFormModel(from: Languages.fr.rawValue,
                                                                to: Languages.en.rawValue,
                                                                text: "Bonjour")
-    var model: TranslationModel?
-
     var translatedText: String = ""
+
+    var shouldSwitchTranslatedText: Bool = false
 
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
@@ -56,8 +56,14 @@ class TranslationTableView: UITableView, UITableViewDelegate, UITableViewDataSou
         let from = formModel.from
         formModel.from = formModel.to
         formModel.to = from
-        reloadData()
 
+        shouldSwitchTranslatedText = true
+
+        let tmpText = formModel.text
+        formModel.text = translatedText
+        translatedText = tmpText
+
+        reloadData()
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -93,6 +99,9 @@ class TranslationTableView: UITableView, UITableViewDelegate, UITableViewDataSou
         } else if indexPath.section == 1 && indexPath.row == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TranslationTextToTranslateTableViewCell.reuseIdentifier,
                                                            for: indexPath) as? TranslationTextToTranslateTableViewCell else { return UITableViewCell()}
+            if shouldSwitchTranslatedText == true {
+                cell.toto(text: formModel.text)
+            }
             cell.isUserInteractionEnabled = true
             return cell
         } else if indexPath.section == 2 && indexPath.row == 0 {
@@ -103,6 +112,9 @@ class TranslationTableView: UITableView, UITableViewDelegate, UITableViewDataSou
         } else if indexPath.section == 3 && indexPath.row == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TranslationTextTranslatedCell.reuseIdentifier,
                                                            for: indexPath) as? TranslationTextTranslatedCell else { return UITableViewCell()}
+            if shouldSwitchTranslatedText == true {
+                cell.toto(text: translatedText)
+            }
             cell.passText(translatedText: translatedText)
             return cell
         } else {

@@ -53,9 +53,7 @@ struct WeatherModel {
 
     var mainWeatherDescription: String
 
-    func setBackgroundColor() -> [CGColor] {
-        let hour = Calendar.current.component(.hour, from: Date())
-
+    func setBackgroundColor(hour: Int) -> [CGColor] {
         if hour >= 4 && hour <= 8 {
             return BackgroundColors.dawn.matchingColors
         } else if hour >= 9 && hour <= 15 {

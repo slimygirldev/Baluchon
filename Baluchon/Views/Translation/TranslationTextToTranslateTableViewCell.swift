@@ -39,6 +39,10 @@ class TranslationTextToTranslateTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func toto(text: String) {
+        textField.text = text
+    }
 
     override func layoutSubviews() {
         super.layoutSubviews()
