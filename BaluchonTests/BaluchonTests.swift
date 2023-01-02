@@ -2,35 +2,157 @@
 //  BaluchonTests.swift
 //  BaluchonTests
 //
-//  Created by Lorene Brocourt on 21/12/2022.
+//  Created by Soomin Lee on 26/12/2022.
 //
 
 import XCTest
 @testable import Baluchon
 
-final class BaluchonTests: XCTestCase {
+class BaluchonTests: XCTestCase {
+    // custom urlsession for mock network calls (networkClient)
+    var dummyUrlSession: URLSession!
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        // Set url session for mock networking
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [MockURLProtocol.self]
+        dummyUrlSession = URLSession(configuration: configuration)
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    private func loadData(from resource: String) throws -> Data {
+        let bundle = Bundle(for: BaluchonTests.self)
+        let url = bundle.url(forResource: resource, withExtension: "json")!
+        return try Data(contentsOf: url)
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    func testGivenMockUrlSession_WhenRequestForWeatherWithMockedJson_ThenWeatherModelCorrectlyCreated() throws {
+        let weatherAPI = NetworkWeatherService(networkClient: dummyUrlSession)
+
+        // Set mock data
+        let mockData = try loadData(from: "Weather")
+
+        // Return data in mock request handler
+        MockURLProtocol.requestHandler = { request in
+            return (HTTPURLResponse(), mockData)
+        }
+
+        // Set expectation. Used to test async code.
+        let expectation = XCTestExpectation(description: "response")
+
+        // Make mock network request to get profile
+        weatherAPI.fetchWeather(for: .paris) { model, error in
+            // We have a model, here we can test the values from the json
+            XCTAssertEqual(model!.cityName, "Paris")
+            XCTAssertEqual(model!.mainWeatherDescription, "broken clouds")
+            XCTAssertEqual(model!.tempMax, 285.29)
+            XCTAssertEqual(model!.tempMin, 283.8)
+            XCTAssertEqual(model!.temp, 284.64)
+            XCTAssertEqual(model!.humidity, 71)
+            XCTAssertEqual(model!.setBackgroundColor(hour: 9), BackgroundColors.day.matchingColors)
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 10)
     }
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
+    func testGivenMockUrlSession_WhenRequestForConversionWithMockedJson_ThenConversionModelCorrectlyCreated() throws {
+        let conversionAPI = ConversionNetworkService(networkClient: dummyUrlSession)
+
+        let mockData = try loadData(from: "Conversion")
+
+        MockURLProtocol.requestHandler = { request in
+            return (HTTPURLResponse(), mockData)
+        }
+
+        let expectation = XCTestExpectation(description: "response")
+
+        conversionAPI.fetchCurrency(from: "EUR", amount: 1, to: "USD") { model, error in
+            XCTAssertEqual(model!.from, "EUR")
+            XCTAssertEqual(model!.to, "USD")
+            XCTAssertEqual(model!.amount, 1)
+            XCTAssertEqual(model!.result, 1.062846)
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 10)
+    }
+
+    func testGivenMockUrlSession_WhenRequestForTranslationWithMockedJson_ThenTranslationModelCorrectlyCreated() throws {
+        let translationAPI = TranslationNetworkService(networkClient: dummyUrlSession)
+
+        let mockData = try loadData(from: "Translation")
+
+        MockURLProtocol.requestHandler = { request in
+            return (HTTPURLResponse(), mockData)
+        }
+
+        let expectation = XCTestExpectation(description: "response")
+
+        translationAPI.fetchTranslationwithComponents(source: "fr", target: "en", textToTranslate: "Bonjour, je suis heureux.") { model, error in
+            XCTAssertEqual(model!.source, "fr")
+            XCTAssertEqual(model!.target, "en")
+            XCTAssertEqual(model!.translatedText, "Hello, I'm happy.")
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 10)
+    }
+
+
+    func testGivenAnErrorMock_WhenRequestForWeatherMockProtocol_ThenErrorIsFetched() throws {
+        let weatherAPI = NetworkWeatherService(networkClient: dummyUrlSession)
+
+        // Set mock data
+        _ = try loadData(from: "Weather")
+
+        // Return data in mock request handler
+        MockURLProtocol.requestHandler = { request in
+            throw MockError.networkError
+        }
+
+        weatherAPI.fetchWeather(for: .paris) { model, error in
+            // We have a model, here we can test the values from the json
+            XCTAssertNotNil(error)
         }
     }
 
+    func testGivenAnErrorMock_WhenRequestForConversionMockProtocol_ThenErrorIsFetched() throws {
+        let conversionAPI = ConversionNetworkService(networkClient: dummyUrlSession)
+
+        // Set mock data
+        _ = try loadData(from: "Conversion")
+
+        // Return data in mock request handler
+        MockURLProtocol.requestHandler = { request in
+            throw MockError.networkError
+        }
+
+        conversionAPI.fetchCurrency(from: "EUR", amount: 1, to: "USD") { model, error in
+            // We have a model, here we can test the values from the json
+            XCTAssertNotNil(error)
+        }
+    }
+
+    func testGivenAnErrorMock_WhenRequestForTranslationMockProtocol_ThenErrorIsFetched() throws {
+        let translationAPI = TranslationNetworkService(networkClient: dummyUrlSession)
+
+        // Set mock data
+        _ = try loadData(from: "Translation")
+
+        // Return data in mock request handler
+        MockURLProtocol.requestHandler = { request in
+            throw MockError.networkError
+        }
+
+        translationAPI.fetchTranslationwithComponents(source: "fr", target: "en", textToTranslate: "Bonjour, je suis heureux.") { model, error in
+            // We have a model, here we can test the values from the json
+            XCTAssertNotNil(error)
+        }
+    }
+
+    func testGivenWeatherModel_WhenSetingHour_ThenGetingCorrectBackgroundColor() throws {
+        let model: WeatherModel = WeatherModel(cityName: "Paris", temp: 12, tempMin: 10, tempMax: 18, humidity: 45, mainWeatherDescription: "cloudy")
+
+        XCTAssertEqual(model.setBackgroundColor(hour: 4), BackgroundColors.dawn.matchingColors)
+        XCTAssertEqual(model.setBackgroundColor(hour: 9), BackgroundColors.day.matchingColors)
+        XCTAssertEqual(model.setBackgroundColor(hour: 16), BackgroundColors.dusk.matchingColors)
+        XCTAssertEqual(model.setBackgroundColor(hour: 0), BackgroundColors.night.matchingColors)
+    }
 }

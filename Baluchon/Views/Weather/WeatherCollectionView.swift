@@ -8,10 +8,8 @@
 import UIKit
 
 class WeatherCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource {
-
     var models: [WeatherModel] = []
     let horizontalPadding: Int = 16
-
 
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: .zero, collectionViewLayout: layout)
@@ -36,9 +34,8 @@ class WeatherCollectionView: UICollectionView, UICollectionViewDelegate, UIColle
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WeatherCollectionViewCell.reuseIdentifer, for: indexPath) as? WeatherCollectionViewCell else {
             return UICollectionViewCell()
         }
-        //permet de savoir quel model on doit utilisé pour configurer une cell telle qu'on la veut
-        // le if est une securité pr que le code ne crash pas au cas où indexpath serait vide
-        // on s'assure grace au if que la valeur d'indexpath est tjrs inferieur au nombre d'element dans le model
+        // Statement to ensure that indexpath is always inferior than elements
+        // Securing code from crash in case indexpath is empty
         if indexPath.row < models.count {
             let model = models[indexPath.row]
             cell.configure(model: model)

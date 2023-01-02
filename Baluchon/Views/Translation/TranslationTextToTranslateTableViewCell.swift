@@ -8,7 +8,6 @@
 import UIKit
 
 class TranslationTextToTranslateTableViewCell: UITableViewCell {
-
     static let reuseIdentifier = "TranslationTextToTranslateTableViewCell"
 
     let textField: UITextView = {
@@ -40,7 +39,7 @@ class TranslationTextToTranslateTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func toto(text: String) {
+    func getTextValue(text: String) {
         textField.text = text
     }
 
