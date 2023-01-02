@@ -13,7 +13,6 @@ enum AlertMessage: String {
 }
 
 class AlertProvider: Error {
-
     func alertError(alertType: NetworkError) -> UIAlertController {
         switch alertType {
         case .fetchError:

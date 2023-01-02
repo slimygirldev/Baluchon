@@ -12,7 +12,7 @@ class ConversionResultTableViewCell: UITableViewCell {
 
     let textResult: UILabel = {
         let textResult = UILabel()
-        textResult.text = "-1"
+        textResult.text = "00"
         textResult.font = .systemFont(ofSize: 40)
         textResult.translatesAutoresizingMaskIntoConstraints = false
         return textResult

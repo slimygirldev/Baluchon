@@ -12,7 +12,6 @@ protocol ConversionTableViewDelegate: AnyObject {
 }
 
 class ConversionTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
-
     weak var conversionDelegate: ConversionTableViewDelegate?
 
     var formModel: FormModel = FormModel(from: Currencies.EUR.rawValue,

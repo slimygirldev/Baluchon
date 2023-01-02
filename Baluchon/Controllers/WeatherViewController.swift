@@ -19,16 +19,15 @@ class WeatherViewController: UIViewController {
                                                collectionViewLayout: UICollectionViewFlowLayout())
 
     lazy var retryLoadingButton: UIBarButtonItem = {
-        let switchCurrencyButton = UIBarButtonItem(title: "retry", style: .plain, target: self, action: #selector(reloadData))
-        switchCurrencyButton.image = UIImage(systemName: "arrow.2.squarepath")
-        switchCurrencyButton.tintColor = .systemBlue
-        return switchCurrencyButton
+        let reloadDataButton = UIBarButtonItem(title: "retry", style: .plain, target: self, action: #selector(reloadData))
+        reloadDataButton.image = UIImage(systemName: "arrow.2.squarepath")
+        reloadDataButton.tintColor = .systemBlue
+        return reloadDataButton
     }()
 
     @objc func reloadData() {
         requestWeather(cityId: .paris)
         requestWeather(cityId: .newYork)
-        print("weather data reloaded")
     }
 
     init(_ networkService: NetworkWeatherService) {
@@ -70,7 +69,6 @@ class WeatherViewController: UIViewController {
             }
 
             guard let unwrappedWeather = weather else {
-                // weather est nil faire une erreur
                 return
             }
             self.weatherModels.append(unwrappedWeather)

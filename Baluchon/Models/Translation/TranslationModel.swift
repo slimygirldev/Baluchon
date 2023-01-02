@@ -17,7 +17,6 @@ enum Format: String {
 }
 
 struct TranslationModel {
-
     var source: String
     var target: String
     var translatedText: String

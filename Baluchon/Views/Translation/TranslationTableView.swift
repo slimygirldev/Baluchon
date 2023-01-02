@@ -12,7 +12,6 @@ protocol TranslationTableViewDelegate: AnyObject {
 }
 
 class TranslationTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
-
     weak var translationDelegate: TranslationTableViewDelegate?
 
     var formModel: TranslationFormModel = TranslationFormModel(from: Languages.fr.rawValue,
@@ -100,7 +99,7 @@ class TranslationTableView: UITableView, UITableViewDelegate, UITableViewDataSou
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TranslationTextToTranslateTableViewCell.reuseIdentifier,
                                                            for: indexPath) as? TranslationTextToTranslateTableViewCell else { return UITableViewCell()}
             if shouldSwitchTranslatedText == true {
-                cell.toto(text: formModel.text)
+                cell.getTextValue(text: formModel.text)
             }
             cell.isUserInteractionEnabled = true
             return cell
@@ -113,7 +112,7 @@ class TranslationTableView: UITableView, UITableViewDelegate, UITableViewDataSou
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TranslationTextTranslatedCell.reuseIdentifier,
                                                            for: indexPath) as? TranslationTextTranslatedCell else { return UITableViewCell()}
             if shouldSwitchTranslatedText == true {
-                cell.toto(text: translatedText)
+                cell.getTextValue(text: translatedText)
             }
             cell.passText(translatedText: translatedText)
             return cell
