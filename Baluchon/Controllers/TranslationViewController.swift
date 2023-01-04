@@ -8,6 +8,7 @@
 import UIKit
 
 class TranslationViewController: UIViewController {
+    private let alertService: AlertProvider = AlertProvider()
 
     var tableView = TranslationTableView(frame: .zero, style: .insetGrouped)
 
@@ -56,6 +57,12 @@ class TranslationViewController: UIViewController {
 
             self.tableView.translatedText = model?.translatedText ?? ""
 
+            guard error == nil else {
+                DispatchQueue.main.async {
+                    self.present(self.alertService.alertError(alertType: .fetchError), animated: true, completion: nil)
+                }
+                return
+            }
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }

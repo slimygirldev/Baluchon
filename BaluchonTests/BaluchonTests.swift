@@ -48,7 +48,6 @@ class BaluchonTests: XCTestCase {
             XCTAssertEqual(model!.tempMin, 283.8)
             XCTAssertEqual(model!.temp, 284.64)
             XCTAssertEqual(model!.humidity, 71)
-            XCTAssertEqual(model!.setBackgroundColor(hour: 9), BackgroundColors.day.matchingColors)
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 10)

@@ -36,7 +36,6 @@ extension NetworkProtocol {
                 }
                 
                 if let data = data {
-                    // transform the data into EntityType
                     let entity = try? JSONDecoder().decode(entityType, from: data)
                     completionHandler(entity, nil)
                 }

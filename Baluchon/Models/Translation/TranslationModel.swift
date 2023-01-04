@@ -12,10 +12,6 @@ enum Languages: String {
     case en = "en"
 }
 
-enum Format: String {
-    case text = "text"
-}
-
 struct TranslationModel {
     var source: String
     var target: String

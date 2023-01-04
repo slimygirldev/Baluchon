@@ -8,7 +8,6 @@
 import UIKit
 
 class WeatherViewController: UIViewController {
-
     private let alertService: AlertProvider = AlertProvider()
 
     var networkService: NetworkWeatherService
