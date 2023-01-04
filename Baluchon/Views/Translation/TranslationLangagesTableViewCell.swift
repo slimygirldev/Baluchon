@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 class TranslationLangagesTableViewCell: UITableViewCell {
     static let reuseIdentifier = "TranslationLangagesTableViewCell"
 
@@ -41,7 +40,7 @@ class TranslationLangagesTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addViews()
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

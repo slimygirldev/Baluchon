@@ -8,7 +8,6 @@
 import UIKit
 
 class ConversionViewController: UIViewController {
-
     private let alertService: AlertProvider = AlertProvider()
 
     var networkService: ConversionNetworkService
@@ -24,7 +23,6 @@ class ConversionViewController: UIViewController {
 
     @objc func handleSwitch() {
         tableView.switchCurrency()
-        print("currencies switched")
     }
 
     init(_ networkService: ConversionNetworkService) {
@@ -56,12 +54,17 @@ class ConversionViewController: UIViewController {
     private func requestConversion(model: FormModel) {
         let completionHandler: ((ConversionModel?, Error?) -> Void) = { model, error in
             self.tableView.result = model?.result ?? 0.0
-            
+
+            guard error == nil else {
+                DispatchQueue.main.async {
+                    self.present(self.alertService.alertError(alertType: .fetchError), animated: true, completion: nil)
+                }
+                return
+            }
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
         }
-
         networkService.fetchCurrency(from: model.from,
                                      amount: model.amount,
                                      to: model.to,
